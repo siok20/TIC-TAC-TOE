@@ -6,16 +6,16 @@ const { Server } = require('socket.io');
 
 // Crear el servidor HTTP
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server);  
 
 // Servir archivos estáticos desde la carpeta actual
-app.use(express.static(path.resolve(__dirname))); // Usa __dirname para la ruta correcta
+app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
 
 let arr=[]
 let playingArray=[]
 
 io.on("connection",(socket)=>{
-    
+
     socket.on("find",(e)=>{
         
         if(e.name!=null){
@@ -80,7 +80,7 @@ io.on("connection",(socket)=>{
 
 // Ruta para servir el archivo index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'index.html')); // Asegúrate de que el archivo exista en la ruta correcta
+    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html')); // Asegúrate de que el archivo exista en la ruta correcta
 });
 
 // Iniciar el servidor
