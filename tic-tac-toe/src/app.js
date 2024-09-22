@@ -1,87 +1,90 @@
-const net = require('net');
+const express = require('express');
+const app = express();
+const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 
-let tablero = [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9']
-];
+// Crear el servidor HTTP
+const server = http.createServer(app);
+const io = new Server(server);
 
-let jugadorActual = 'X';
-const clientes = [];
+// Servir archivos estáticos desde la carpeta actual
+app.use(express.static(path.resolve(__dirname))); // Usa __dirname para la ruta correcta
 
-const server = net.createServer((socket) => {
-    console.log('Un jugador se ha conectado');
+let arr=[]
+let playingArray=[]
 
-    // Agregar el nuevo cliente
-    clientes.push(socket);
-
-    // Enviar el tablero inicial al nuevo jugador
-    socket.write(mostrarTablero());
-
-    // Indicar al primer jugador que es su turno
-    if (clientes.length === 1) {
-        socket.write('Es tu turno, elige una posición (1-9):\n');
-    }
-
-    // Para escuchar cuando se manden datos
-    socket.on('data', (data) => {
-        const posicion = parseInt(data.toString().trim());
-        const jugador = socket === clientes[0] ? 'X' : 'O'; // Asignar jugador basado en el orden de conexión
-
-        // Validar turno
-        if (jugador !== jugadorActual) {
-            socket.write('No es tu turno. Espera a que el otro jugador juegue.\n');
-            return;
-        }
-
-        if(posicion >= 1 && posicion <= 9){
-            const fila = Math.floor((posicion - 1) / 3);
-            const columna = (posicion - 1) % 3;
+io.on("connection",(socket)=>{
     
-            if (tablero[fila][columna] !== 'X' && tablero[fila][columna] !== 'O') {
-                tablero[fila][columna] = jugadorActual;
-
-                // Enviar el tablero actualizado a todos los clientes
-                clientes.forEach(cliente => {
-                    cliente.write(mostrarTablero());
-                });
-
-                // Cambiar de jugador
-                jugadorActual = jugadorActual === 'X' ? 'O' : 'X';
-
-                // Avisar al siguiente jugador que es su turno
-                const siguienteJugador = jugadorActual === 'X' ? clientes[0] : clientes[1];
-                if (siguienteJugador) {
-                    siguienteJugador.write('Es tu turno, elige una posición (1-9):\n');
+    socket.on("find",(e)=>{
+        
+        if(e.name!=null){
+            
+            arr.push(e.name)
+            
+            if(arr.length>=2){
+                let p1obj={
+                    p1name:arr[0],
+                    p1value:"X",
+                    p1move:""
                 }
-            } else {
-                socket.write('Posición ocupada, elige otra.\n');
+                let p2obj={
+                    p2name:arr[1],
+                    p2value:"O",
+                    p2move:""
+                }
+                
+                let obj={
+                    p1:p1obj,
+                    p2:p2obj,
+                    sum:1
+                }
+                playingArray.push(obj)
+                
+                arr.splice(0,2)
+                
+                io.emit("find",{allPlayers:playingArray})
+                
             }
-        } else {
-            socket.write('Posición inválida. Elige un número entre 1 y 9.\n');
+            
         }
-    });
+        
+    })
+    
+    socket.on("playing",(e)=>{
+        if(e.value=="X"){
+            let objToChange=playingArray.find(obj=>obj.p1.p1name===e.name)
+            
+            objToChange.p1.p1move=e.id
+            objToChange.sum++
+        }
+        else if(e.value=="O"){
+            let objToChange=playingArray.find(obj=>obj.p2.p2name===e.name)
+            
+            objToChange.p2.p2move=e.id
+            objToChange.sum++
+        }
 
-    socket.on('end', () => {
-        console.log('Un jugador se ha desconectado');
-        const index = clientes.indexOf(socket);
-        if (index !== -1) {
-            clientes.splice(index, 1);
-        }
-    });
+        io.emit("playing",{allPlayers:playingArray})
+        
+    })
+    
+    socket.on("gameOver",(e)=>{
+        playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
+        console.log(playingArray)
+        console.log("lol")
+    })
+    
+    
+})
+
+// Ruta para servir el archivo index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'index.html')); // Asegúrate de que el archivo exista en la ruta correcta
 });
 
-function mostrarTablero() {
-    return `
-     ${tablero[0][0]} | ${tablero[0][1]} | ${tablero[0][2]}
-    -----------
-     ${tablero[1][0]} | ${tablero[1][1]} | ${tablero[1][2]}
-    -----------
-     ${tablero[2][0]} | ${tablero[2][1]} | ${tablero[2][2]}
-    `;
-}
-
-const port = process.env.PORT || 3000;
-server.listen(port , () => {
-    console.log(`Servidor corriendo en puerto ${port}`);
+// Iniciar el servidor
+server.listen(3000, () => {
+    console.log('Server running on port 3000');
 });
+
