@@ -1,33 +1,26 @@
 const request = require('supertest');
-const http = require('http');
-const express = require('express');
-const { Server } = require('socket.io');
-const path = require('path');
+const { startServer } = require('../src/app');
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
-
-// Configuración del servidor
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'index.html'));
-});
-
-// Prueba del puerto
-describe('Server Port Test', () => {
+describe('GET /', () => {
     let serverInstance;
 
+    // Antes de las pruebas, inicia el servidor
     beforeAll((done) => {
-        serverInstance = server.listen(3000, done);
+        serverInstance = startServer(3000);
+        done();
     });
 
+    // Después de las pruebas, cierra el servidor
     afterAll((done) => {
         serverInstance.close(done);
     });
 
-    test('should be running on port 3000', (done) => {
-        request(serverInstance)
-            .get('/')
-            .expect(200, done);
+    describe('GET /', () => {
+        it('debería retornar el archivo index.html', async () => {
+            const response = await request(serverInstance).get('/');
+            expect(response.status).toBe(200);
+            expect(response.header['content-type']).toEqual(expect.stringContaining('html'));
+        });
     });
 });
+
