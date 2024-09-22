@@ -72,7 +72,6 @@ io.on("connection",(socket)=>{
     socket.on("gameOver",(e)=>{
         playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
         console.log(playingArray)
-        console.log("lol")
     })
     
     
