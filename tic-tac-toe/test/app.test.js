@@ -1,26 +1,34 @@
 const request = require('supertest');
-const { startServer } = require('../src/app');
+const http = require('http');
+const express = require('express');
+const path = require('path');
 
-describe('GET /', () => {
-    let serverInstance;
+const app = express();
+app.use(express.static(path.resolve(__dirname, '../src/frontend'))); 
 
-    // Antes de las pruebas, inicia el servidor
-    beforeAll((done) => {
-        serverInstance = startServer(3000);
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../src/frontend', 'index.html')); 
+});
+
+let server;
+
+beforeAll((done) => {
+    server = http.createServer(app);
+    server.listen(0, () => {
         done();
     });
+});
 
-    // Después de las pruebas, cierra el servidor
-    afterAll((done) => {
-        serverInstance.close(done);
-    });
+afterAll((done) => {
+    server.close(done);
+});
 
-    describe('GET /', () => {
-        it('debería retornar el archivo index.html', async () => {
-            const response = await request(serverInstance).get('/');
-            expect(response.status).toBe(200);
-            expect(response.header['content-type']).toEqual(expect.stringContaining('html'));
-        });
+describe('GET /', () => {
+    it('should serve the index.html file', async () => {
+        const res = await request(server).get('/');
+        expect(res.statusCode).toEqual(200);
+        expect(res.header['content-type']).toMatch(/html/);
     });
 });
+
 
