@@ -11,7 +11,7 @@ let name;
 
 document.getElementById('find').addEventListener("click", function () {
     name = document.getElementById("name").value
-    document.getElementById("user").innerText = name
+    document.getElementById("user").innerText = name 
     if (name == null || name == '') {
         alert("Please enter a name")
     }

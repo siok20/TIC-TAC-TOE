@@ -61,7 +61,7 @@ io.on("connection",(socket)=>{
         else if(e.value=="O"){
             let objToChange=playingArray.find(obj=>obj.p2.p2name===e.name)
             
-            objToChange.p2.p2move=e.id
+            objToChange.p2.p2move=e.id  
             objToChange.sum++
         }
 
@@ -80,6 +80,11 @@ io.on("connection",(socket)=>{
 // Ruta para servir el archivo index.html
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'index.html')); // Asegúrate de que el archivo exista en la ruta correcta
+});
+
+app.get('/metrics', async (req, res) => {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
 });
 
 // Iniciar el servidor
