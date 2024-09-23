@@ -3,12 +3,12 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - fix/workflow
+      - feature/api-rest
   
   pull_request:
     branches:
-      - fix/workflow
-
+      - feature/api-rest
+      
 jobs:
   build:
     runs-on: ubuntu-latest
