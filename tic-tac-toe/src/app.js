@@ -11,8 +11,9 @@ const io = new Server(server);
 // Servir archivos estáticos desde la carpeta actual
 app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
 
-let arr=[]
-let playingArray=[]
+let arr=[];
+let playingArray=[];
+let gameId = 0;
 
 io.on("connection",(socket)=>{
 
@@ -21,6 +22,8 @@ io.on("connection",(socket)=>{
         if(e.name!=null){
             
             arr.push(e.name)
+
+            socket.join(gameId)
             
             if(arr.length>=2){
                 let p1obj={
@@ -35,6 +38,7 @@ io.on("connection",(socket)=>{
                 }
                 
                 let obj={
+                    id:gameId,
                     p1:p1obj,
                     p2:p2obj,
                     sum:1
@@ -43,8 +47,9 @@ io.on("connection",(socket)=>{
                 
                 arr.splice(0,2)
                 
-                io.emit("find",{allPlayers:playingArray})
-                
+                io.to(gameId).emit("find", { allPlayers: [obj] })
+
+                gameId++
             }
             
         }
