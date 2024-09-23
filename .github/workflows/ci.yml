@@ -23,15 +23,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: Semana1/Actividad1/tic-tac-toe
+        working-directory: tic-tac-toe
 
       - name: Run tests
         run: npm test
-        working-directory: Semana1/Actividad1/tic-tac-toe
+        working-directory: tic-tac-toe
 
       - name: Build Docker image
         run: docker build -t tic-tac-toe .
-        working-directory: Semana1/Actividad1/tic-tac-toe
+        working-directory: tic-tac-toe
 
       - name: Run Docker container
         run: docker run -d -p 3000:3000 tic-tac-toe
