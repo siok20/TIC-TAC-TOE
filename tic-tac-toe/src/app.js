@@ -8,42 +8,41 @@ const { Server } = require('socket.io');
 const server = http.createServer(app);
 const io = new Server(server);  
 
-// Importar prom-client para métricas
 const client = require('prom-client');
-const register = new client.Registry();
-const collectDefaultMetrics = client.collectDefaultMetrics;
+const { collectDefaultMetrics, register, Counter, Gauge } = client;
 
 // Recolectar métricas predeterminadas cada 5 segundos
 collectDefaultMetrics({timeout: 5000})
 
-// Middleware para medir la duración de las solicitudes
-const httpRequestDurationMicroseconds = new client.Histogram({
-    name: 'http_request_duration_seconds',
-    help: 'Duration of HTTP requests in seconds',
-    labelNames: ['method', 'route'],
-    registers: [register],
+// Definir métricas
+const httpMetricsLabelNames = ['method', 'path'];
+const totalHttpRequestCount = new Counter({
+  name: 'nodejs_http_total_count',
+  help: 'Total number of HTTP requests',
+  labelNames: httpMetricsLabelNames,
 });
 
-// Middleware para registrar la duración de cada solicitud
+const totalHttpRequestDuration = new Gauge({
+    name: 'nodejs_http_total_duration',
+    help: 'The last duration of the last request',
+    labelNames: httpMetricsLabelNames,
+  });
+
+
+// Middleware para medir las solicitudes HTTP
 app.use((req, res, next) => {
-    const end = httpRequestDurationMicroseconds.startTimer();
+    const start = Date.now();
+    
     res.on('finish', () => {
-        end({ method: req.method, route: req.route ? req.route.path : req.path });
+      const duration = Date.now() - start;
+      totalHttpRequestCount.labels(req.method, req.path).inc();
+      totalHttpRequestDuration.labels(req.method, req.path).set(duration);
     });
+    
     next();
-});
+  });
 
 
-const counter = new client.Counter({
-    name: 'node_request_operations_total',
-    help: 'The total number of processed requests'
-})
-
-const histogram = new client.Histogram({
-    name: 'node_request_duration_seconds',
-    help: 'Histogram for the duration in seconds',
-    buckets: [1,2,5,6,10]
-})
 
 // Servir archivos estáticos desde la carpeta actual
 app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
@@ -132,11 +131,12 @@ app.get('/', (req, res) => {
     });
 });
 
-// Endpoint de métricas
+// Ruta para métricas
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
-});
+  });
+
 
 // Iniciar el servidor
 server.listen(4000, () => {
