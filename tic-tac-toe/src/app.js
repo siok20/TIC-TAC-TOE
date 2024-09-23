@@ -114,6 +114,12 @@ io.on("connection",(socket)=>{
         playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
         console.log(playingArray)
     })
+
+    socket.on("viewGame", (e)=>{
+        let game = 
+
+        socket.emit("viewGame", { game })
+    })
     
     
 })
@@ -131,19 +137,22 @@ app.get('/', (req, res) => {
     });
 });
 
-//Ruta para obtener la informacion de una partida por su id
-app.get('/games/:id', (req, res)=> {
-    let game = playingArray.find(game=> game.id == req.params.id)
-
-    console.log(game);
-})
-
 //obtener el listado de varias partidas
 app.get('/games', (req, res)=> {
-    let game = playingArray.find(game=> game.id == req.params.id)
-
-    console.log(game);
+    res.send("Games")
+    //console.log(playingArray);
 })
+
+
+//Ruta para obtener la informacion de una partida por su id
+app.get('/games/:id', (req, res)=> {
+    res.send("Partida n°: " + req.params.id)
+    res.sendFile(path.resolve(__dirname, 'frontend', 'games.html'))
+        //let game = playingArray.find(game=> game.id == req.params.id)
+
+    //console.log(game);
+})
+
 
 // Ruta para métricas
 app.get('/metrics', async (req, res) => {
