@@ -8,6 +8,43 @@ const { Server } = require('socket.io');
 const server = http.createServer(app);
 const io = new Server(server);  
 
+// Importar prom-client para métricas
+const client = require('prom-client');
+const register = new client.Registry();
+const collectDefaultMetrics = client.collectDefaultMetrics;
+
+// Recolectar métricas predeterminadas cada 5 segundos
+collectDefaultMetrics({timeout: 5000})
+
+// Middleware para medir la duración de las solicitudes
+const httpRequestDurationMicroseconds = new client.Histogram({
+    name: 'http_request_duration_seconds',
+    help: 'Duration of HTTP requests in seconds',
+    labelNames: ['method', 'route'],
+    registers: [register],
+});
+
+// Middleware para registrar la duración de cada solicitud
+app.use((req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on('finish', () => {
+        end({ method: req.method, route: req.route ? req.route.path : req.path });
+    });
+    next();
+});
+
+
+const counter = new client.Counter({
+    name: 'node_request_operations_total',
+    help: 'The total number of processed requests'
+})
+
+const histogram = new client.Histogram({
+    name: 'node_request_duration_seconds',
+    help: 'Histogram for the duration in seconds',
+    buckets: [1,2,5,6,10]
+})
+
 // Servir archivos estáticos desde la carpeta actual
 app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
 
@@ -84,16 +121,25 @@ io.on("connection",(socket)=>{
 
 // Ruta para servir el archivo index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html')); // Asegúrate de que el archivo exista en la ruta correcta
+    // Incrementar el contador de solicitudes
+    counter.inc();
+        
+    // Medir la duración de la solicitud
+    const end = histogram.startTimer();
+    res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'), () => {
+        // Detener el cronómetro cuando la respuesta se haya enviado
+        end();
+    });
 });
 
+// Endpoint de métricas
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
 });
 
 // Iniciar el servidor
-server.listen(3001, () => {
-    console.log('Server running on port 3001');
+server.listen(4000, () => {
+    console.log('Server running on port 4000');
 });
 
