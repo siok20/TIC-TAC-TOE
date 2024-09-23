@@ -3,11 +3,11 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - api-rest/docker
+      - feature/api-rest
   
   pull_request:
     branches:
-      - api-rest/docker
+      - feature/api-rest
 
 jobs:
   build:
@@ -30,12 +30,14 @@ jobs:
       run: |
         wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.4/dependency-check-10.0.4-release.zip
         unzip dependency-check-10.0.4-release.zip
-        mv dependency-check-10.0.4 dependency-check  # Renombrar para facilitar el acceso
-        cd dependency-check
+        mv dependency-check-10.0.4 dependency-check  # Renaming for easier access
+
+    - name: Grant execute permissions for Dependency-Check
+      run: chmod +x dependency-check/bin/dependency-check.sh
 
     - name: Run OWASP Dependency-Check
       run: |
-        ./bin/dependency-check.sh --project "Tic Tac Toe" --scan ./tic-tac-toe/src
+        ./dependency-check/bin/dependency-check.sh --project "Tic Tac Toe" --scan ./tic-tac-toe/src
 
     - name: Build Docker image
       run: docker build -t tic-tac-toe tic-tac-toe/.
