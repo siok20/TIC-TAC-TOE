@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -16,15 +16,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      - name: Build Docker image
+        run: docker build -t tic-tac-toe ./tic-tac-toe
+
+      - name: Run Docker container
+        run: docker run -d -p 3000:3000 tic-tac-toe
+
+      - name: Set up Node.js (optional)
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
       - name: Install dependencies
         run: npm install
-        working-directory: tic-tac-toe
+        working-directory: ./tic-tac-toe
 
       - name: Run tests
         run: npm test
-        working-directory: tic-tac-toe
+        working-directory: ./tic-tac-toe
