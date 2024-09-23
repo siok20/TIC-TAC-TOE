@@ -30,7 +30,10 @@ jobs:
       run: |
         wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.4/dependency-check-10.0.4-release.zip
         unzip dependency-check-10.0.4-release.zip
-        mv dependency-check-10.0.4 dependency-check  # Renaming for easier access
+        # Verifica el nombre exacto del directorio descomprimido
+        ls -l  # Esto listará los archivos para que se vea el nombre
+        mv dependency-check-* dependency-check  # Se debe de renombrar el directorio
+
 
     - name: Grant execute permissions for Dependency-Check
       run: chmod +x dependency-check/bin/dependency-check.sh
