@@ -8,6 +8,7 @@ document.getElementById("whosTurn").style.display = "none"
 const socket = io();
 
 let name;
+let currentPlayer = "X"; 
 
 document.getElementById('find').addEventListener("click", function () {
     name = document.getElementById("name").value
@@ -54,6 +55,11 @@ socket.on("find", (e) => {
 document.querySelectorAll(".btn").forEach(e => {
     e.addEventListener("click", function () {
         let value = document.getElementById("value").innerText
+        // Verificar si es el turno del jugador actual
+        if (currentPlayer !== value) {
+            alert("No es tu turno.");
+            return;
+        }
         e.innerText = value
         socket.emit("playing", { value: value, id: e.id, name: name })
     })
@@ -65,8 +71,10 @@ socket.on("playing", (e) => {
     p2id = foundObject.p2.p2move
 
     if ((foundObject.sum) % 2 == 0) {
+        currentPlayer = "O";  // Cambiar el turno a O
         document.getElementById("whosTurn").innerText = "O's Turn"
     } else {
+        currentPlayer = "X";  // Cambiar el turno a X
         document.getElementById("whosTurn").innerText = "X's Turn"
     }
 
