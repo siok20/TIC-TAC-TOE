@@ -34,7 +34,7 @@ socket.on("find", (e) => {
         document.getElementById("valueCont").style.display = "block"
         document.getElementById("loading").style.display = "none"
         document.getElementById("name").style.display = "none"
-        document.getElementById("find").style.display = "none"
+        document.getElementById("afind").style.display = "none"
         document.getElementById("enterName").style.display = "none"
         document.getElementById("bigcont").style.display = "block"
         document.getElementById("whosTurn").style.display = "block"
@@ -72,10 +72,10 @@ socket.on("playing", (e) => {
 
     if ((foundObject.sum) % 2 == 0) {
         currentPlayer = "O";  // Cambiar el turno a O
-        document.getElementById("whosTurn").innerText = "O's Turn"
+        document.getElementById("whosTurn").innerText = "Turno de O"
     } else {
         currentPlayer = "X";  // Cambiar el turno a X
-        document.getElementById("whosTurn").innerText = "X's Turn"
+        document.getElementById("whosTurn").innerText = "Turno de X"
     }
 
     if (p1id != '') {
@@ -104,7 +104,7 @@ function check(name, sum) {
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
     if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
-        socket.emit("gameOver", { name: name })
+        socket.emit("Derrota", { name: name })
 
         setTimeout(() => {
             sum % 2 == 0 ? alert("X WON !!") : alert("O WON !!")
