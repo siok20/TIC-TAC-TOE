@@ -13,7 +13,7 @@ services:
       - NODE_ENV=production
 
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.28.1
     container_name: prometheus
     restart: unless-stopped
     volumes:
@@ -23,7 +23,7 @@ services:
     - 9090:9090
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:8.0.6
     container_name: grafana
     restart: unless-stopped
     volumes:
