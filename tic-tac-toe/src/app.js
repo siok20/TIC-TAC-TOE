@@ -131,6 +131,20 @@ app.get('/', (req, res) => {
     });
 });
 
+//Ruta para obtener la informacion de una partida por su id
+app.get('/games/:id', (req, res)=> {
+    let game = playingArray.find(game=> game.id == req.params.id)
+
+    console.log(game);
+})
+
+//obtener el listado de varias partidas
+app.get('/games', (req, res)=> {
+    let game = playingArray.find(game=> game.id == req.params.id)
+
+    console.log(game);
+})
+
 // Ruta para métricas
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', register.contentType);
