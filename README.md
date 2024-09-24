@@ -51,7 +51,9 @@ CMD ["node", "src/app.js"]
 ```
 
 ## Instrucciones para Ejecutar el Proyecto
-# Nota: Actualmente, estás en la rama feature/console, que contiene la primera versión del juego. Esta versión aún no está terminada y solo incluye las funcionalidades básicas.
+
+Nota: Actualmente, estás en la rama feature/console, que contiene la primera versión del juego. Esta versión aún no está terminada y solo incluye las funcionalidades básicas.
+
 1. **Clonar el repositorio:**
    ```bash
    git clone https://github.com/Strangertame74/pc1-grupo11.git
@@ -70,8 +72,10 @@ CMD ["node", "src/app.js"]
     node src/app.js
 ```
 En otra terminal ejecuta y listo para jugar
-``bash
+```bash
     node src/client.js
+    ```
+5. **Ejecutar pruebas**
+```bash
+    npm test
 ```
-5 **Ejecutar pruebas**``bash
-    npm test ```
