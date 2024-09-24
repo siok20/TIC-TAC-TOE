@@ -67,15 +67,13 @@ Nota: Actualmente, estás en la rama feature/console, que contiene la primera ve
 ```bash
     npm install
 ```
-4. **Ejecutar la aplicación**
+4. **Ejecutar la aplicación:** Se necesita abrir 2 terminales
 ```bash
     node src/app.js
-```
-En otra terminal ejecuta y listo para jugar
-```bash
     node src/client.js
-    ```
+```
 5. **Ejecutar pruebas**
 ```bash
+    cd src
     npm test
 ```
