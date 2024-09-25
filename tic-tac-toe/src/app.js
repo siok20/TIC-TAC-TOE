@@ -117,6 +117,7 @@ io.on("connection",(socket)=>{
 
     //Acceder a un juego por su id
     socket.on("viewGame", (e)=>{
+        console.log(e.id*-1)
         let game = playingArray.find(obj => obj.id === e.id)
 
         if(!game){
