@@ -125,10 +125,7 @@ io.on("connection",(socket)=>{
 })
 
 // Ruta para servir el archivo index.html
-app.get('/', (req, res) => {
-    // Incrementar el contador de solicitudes
-    counter.inc();
-        
+app.get('/', (req, res) => {        
     // Medir la duración de la solicitud
     const end = histogram.startTimer();
     res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'), () => {
@@ -138,19 +135,16 @@ app.get('/', (req, res) => {
 });
 
 //obtener el listado de varias partidas
-app.get('/games', (req, res)=> {
+app.get('/stats', (req, res)=> {
     res.send("Games")
     //console.log(playingArray);
 })
 
 
 //Ruta para obtener la informacion de una partida por su id
-app.get('/games/:id', (req, res)=> {
-    res.send("Partida n°: " + req.params.id)
+app.get('/games', (req, res)=> {
+    
     res.sendFile(path.resolve(__dirname, 'frontend', 'games.html'))
-        //let game = playingArray.find(game=> game.id == req.params.id)
-
-    //console.log(game);
 })
 
 
