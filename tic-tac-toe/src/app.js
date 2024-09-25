@@ -49,7 +49,7 @@ app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname p
 
 let arr=[];
 let playingArray=[];
-let gameId = 0;
+let gameId = 1;
 
 io.on("connection",(socket)=>{
 
@@ -115,10 +115,17 @@ io.on("connection",(socket)=>{
         console.log(playingArray)
     })
 
+    //Acceder a un juego por su id
     socket.on("viewGame", (e)=>{
-        let game = 
+        let game = playingArray.find(obj => obj.id === e.id)
 
-        socket.emit("viewGame", { game })
+        if(!game){
+            //Si no existe el juego emite un error
+            socket.emit("error", { message: "game not found" })
+        }
+        else{
+            socket.emit("viewGame", { game })
+        }
     })
     
     
