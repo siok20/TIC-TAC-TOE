@@ -100,12 +100,15 @@ io.on("connection",(socket)=>{
             
             objToChange.p1.move=e.id
             objToChange.sum++
+            objToChange.winner = e.name
+
         }
         else if(e.value=="O"){
             let objToChange=playingArray.find(obj=>obj.p2.name===e.name)
             
             objToChange.p2.move=e.id  
             objToChange.sum++
+            objToChange.winner = e.name
         }
 
         //console.log(playingArray)
@@ -115,7 +118,7 @@ io.on("connection",(socket)=>{
     })
     
     socket.on("gameOver",(e)=>{
-        //playingArray=playingArray.filter(obj=>obj.p1.name!==e.name)
+        let play = playingArray.filter(obj=>obj.p1.name!==e.name)
         console.log(playingArray)
     })
 

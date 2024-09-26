@@ -23,6 +23,7 @@ socket.on("viewGame", (e) => {
     console.log("+")
     document.getElementById("user").textContent = `${e.game.p1.name}`
     document.getElementById("oppName").textContent = `${e.game.p2.name}`
+    document.getElementById("whosWon").textContent = `${e.game.winner}`
 })
 
 socket.on("error", (e)=>{
