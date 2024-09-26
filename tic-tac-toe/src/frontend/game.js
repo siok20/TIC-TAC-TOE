@@ -44,9 +44,9 @@ socket.on("find", (e) => {
     let oppName
     let value
 
-    const foundObject = allPlayersArray.find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
-    foundObject.p1.p1name == `${name}` ? oppName = foundObject.p2.p2name : oppName = foundObject.p1.p1name
-    foundObject.p1.p1name == `${name}` ? value = foundObject.p1.p1value : value = foundObject.p2.p2value
+    const foundObject = allPlayersArray.find(obj => obj.p1.name == `${name}` || obj.p2.name == `${name}`);
+    foundObject.p1.name == `${name}` ? oppName = foundObject.p2.name : oppName = foundObject.p1.name
+    foundObject.p1.name == `${name}` ? value = foundObject.p1.value : value = foundObject.p2.value
 
     document.getElementById("oppName").innerText = oppName
     document.getElementById("value").innerText = value
@@ -66,9 +66,9 @@ document.querySelectorAll(".btn").forEach(e => {
 })
 
 socket.on("playing", (e) => {
-    const foundObject = (e.allPlayers).find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
-    p1id = foundObject.p1.p1move
-    p2id = foundObject.p2.p2move
+    const foundObject = (e.allPlayers).find(obj => obj.p1.name == `${name}` || obj.p2.name == `${name}`);
+    p1id = foundObject.p1.move
+    p2id = foundObject.p2.move
 
     if ((foundObject.sum) % 2 == 0) {
         currentPlayer = "O";  // Cambiar el turno a O

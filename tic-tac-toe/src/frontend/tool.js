@@ -20,10 +20,12 @@ document.getElementById("getID").addEventListener('input', function(e){
 })
 
 socket.on("viewGame", (e) => {
+    console.log("+")
     document.getElementById("user").textContent = `${e.game.p1.p1name}`
     document.getElementById("oppName").textContent = `${e.game.p2.p2name}`
 })
 
 socket.on("error", (e)=>{
+    console.log("-")
     document.getElementById("notFound").style.display = "block"
 })

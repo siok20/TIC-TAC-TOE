@@ -49,6 +49,7 @@ app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname p
 
 let arr=[];
 let playingArray=[];
+let players = []; 
 let gameId = 1;
 
 io.on("connection",(socket)=>{
@@ -63,14 +64,14 @@ io.on("connection",(socket)=>{
             
             if(arr.length>=2){
                 let p1obj={
-                    p1name:arr[0],
-                    p1value:"X",
-                    p1move:""
+                    name:arr[0],
+                    value:"X",
+                    move:""
                 }
                 let p2obj={
-                    p2name:arr[1],
-                    p2value:"O",
-                    p2move:""
+                    name:arr[1],
+                    value:"O",
+                    move:""
                 }
                 
                 let obj={
@@ -94,15 +95,15 @@ io.on("connection",(socket)=>{
     
     socket.on("playing",(e)=>{
         if(e.value=="X"){
-            let objToChange=playingArray.find(obj=>obj.p1.p1name===e.name)
+            let objToChange=playingArray.find(obj=>obj.p1.name===e.name)
             
-            objToChange.p1.p1move=e.id
+            objToChange.p1.move=e.id
             objToChange.sum++
         }
         else if(e.value=="O"){
-            let objToChange=playingArray.find(obj=>obj.p2.p2name===e.name)
+            let objToChange=playingArray.find(obj=>obj.p2.name===e.name)
             
-            objToChange.p2.p2move=e.id  
+            objToChange.p2.move=e.id  
             objToChange.sum++
         }
 
@@ -111,8 +112,8 @@ io.on("connection",(socket)=>{
     })
     
     socket.on("gameOver",(e)=>{
-        playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
-        console.log(playingArray)
+        playingArray=playingArray.filter(obj=>obj.p1.name!==e.name)
+        //console.log(playingArray)
     })
 
     //Acceder a un juego por su id
