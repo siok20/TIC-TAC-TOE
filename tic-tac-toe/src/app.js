@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
+const promClient = require('prom-client');
 
 // Crear el servidor HTTP
 const server = http.createServer(app);
@@ -28,6 +29,17 @@ const totalHttpRequestDuration = new Gauge({
     labelNames: httpMetricsLabelNames,
   });
 
+  const partidasActivas = new promClient.Gauge({
+    name: 'tic_tac_toe_active_games',
+    help: 'Número de partidas activas en el sistema',
+});
+
+const puntuacionJugador = new promClient.Gauge({
+    name: 'tic_tac_toe_player_score',
+    help: 'Puntuaciones de los jugadores',
+    labelNames: ['player_name'],
+});
+  
 
 // Middleware para medir las solicitudes HTTP
 app.use((req, res, next) => {
@@ -43,15 +55,17 @@ app.use((req, res, next) => {
   });
 
 
-
+  
 // Servir archivos estáticos desde la carpeta actual
 app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
 
 let arr=[];
 let playingArray=[];
 let gameId = 1;
+partidasActivas.set(0);
 
 io.on("connection",(socket)=>{
+
 
     socket.on("find",(e)=>{
         
@@ -80,6 +94,8 @@ io.on("connection",(socket)=>{
                     sum:1
                 }
                 playingArray.push(obj)
+
+                partidasActivas.inc(); 
                 
                 arr.splice(0,2)
                 
@@ -112,7 +128,10 @@ io.on("connection",(socket)=>{
     
     socket.on("gameOver",(e)=>{
         playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
+        partidasActivas.dec();
+        puntuacionJugador.labels(e.name).inc(); 
         console.log(playingArray)
+
     })
 
     //Acceder a un juego por su id
