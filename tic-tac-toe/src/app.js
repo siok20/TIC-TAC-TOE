@@ -49,6 +49,7 @@ app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname p
 
 let arr=[];
 let playingArray=[];
+let playedArray=[];
 let players = []; 
 let gameId = 1;
 
@@ -137,6 +138,14 @@ io.on("connection",(socket)=>{
             socket.emit("viewGame", { game })
         }
     })
+
+    socket.on("viewPlayers", (e)=>{
+
+    })
+
+    socket.on("viewGames", (e)=>{
+        socket.emit("viewGames", {games: playingArray})
+    })
     
     
 })
@@ -153,7 +162,7 @@ app.get('/', (req, res) => {
 
 //obtener el listado de varias partidas
 app.get('/stats', (req, res)=> {
-    res.send("Games")
+    res.sendFile(path.resolve(__dirname, 'frontend', 'stats.html'))
     //console.log(playingArray);
 })
 

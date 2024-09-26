@@ -10,3 +10,6 @@ El archivo `games.hmtl` accede al `id` del input mediante `tool.js`
 
 ### Conexión
 Se conecta ``tool.js`` con `app.js` correctamente, aunque se notó un error en el almacenamiento de datos por parte de `app.js`
+
+## /stats
+Creado para ver una tabla de todos los juegos o de todos los jugadores y su información
