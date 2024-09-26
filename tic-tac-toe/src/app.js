@@ -78,6 +78,7 @@ io.on("connection",(socket)=>{
                     id:gameId,
                     p1:p1obj,
                     p2:p2obj,
+                    winner:"-",
                     sum:1
                 }
                 playingArray.push(obj)
@@ -107,25 +108,29 @@ io.on("connection",(socket)=>{
             objToChange.sum++
         }
 
+        //console.log(playingArray)
+
         io.emit("playing",{allPlayers:playingArray})
         
     })
     
     socket.on("gameOver",(e)=>{
-        playingArray=playingArray.filter(obj=>obj.p1.name!==e.name)
-        //console.log(playingArray)
+        //playingArray=playingArray.filter(obj=>obj.p1.name!==e.name)
+        console.log(playingArray)
     })
 
     //Acceder a un juego por su id
     socket.on("viewGame", (e)=>{
         console.log(e.id*-1)
-        let game = playingArray.find(obj => obj.id === e.id)
+        let game = playingArray.find(obj => obj.id == e.id)
 
         if(!game){
             //Si no existe el juego emite un error
+            console.log("game not found")
             socket.emit("error", { message: "game not found" })
         }
         else{
+            console.log("game")
             socket.emit("viewGame", { game })
         }
     })
