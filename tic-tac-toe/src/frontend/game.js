@@ -1,9 +1,5 @@
-document.getElementById("loading").style.display = "none"
-document.getElementById("bigcont").style.display = "none"
-document.getElementById("userCont").style.display = "none"
-document.getElementById("oppNameCont").style.display = "none"
-document.getElementById("valueCont").style.display = "none"
-document.getElementById("whosTurn").style.display = "none"
+document.getElementById("loading").style.display = "none";
+document.getElementById("boardgame").style.display = "none";
 
 const socket = io();
 
@@ -19,8 +15,8 @@ document.getElementById('find').addEventListener("click", function () {
     else {
         socket.emit("find", { name: name })
 
-        document.getElementById("loading").style.display = "block"
-        document.getElementById("find").disabled = true;
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("find").style.display= "none";
     }
 })
 
@@ -29,16 +25,8 @@ socket.on("find", (e) => {
     console.log("html", allPlayersArray)
 
     if (name != '') {
-        document.getElementById("userCont").style.display = "block"
-        document.getElementById("oppNameCont").style.display = "block"
-        document.getElementById("valueCont").style.display = "block"
-        document.getElementById("loading").style.display = "none"
-        document.getElementById("name").style.display = "none"
-        document.getElementById("afind").style.display = "none"
-        document.getElementById("enterName").style.display = "none"
-        document.getElementById("bigcont").style.display = "block"
-        document.getElementById("whosTurn").style.display = "block"
-        document.getElementById("whosTurn").innerText = "X's Turn"
+        document.getElementById("main").style.display = "none";
+        document.getElementById("boardgame").style.display= "block";
     }
 
     let oppName

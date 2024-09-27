@@ -12,31 +12,29 @@
 </head>
 
 <body>
-
-    <h1>Bienvenidos al juego de Tic-Tac-Toe</h1>
+    
+    <div id="main">
+        <h1>Tic-Tac-Toe</h1>
+        <div class="name-box">
+            <h2 class="nombre">Escribe tu nombre :D</h2>
+            <div>
+                <input type="text" placeholder="Nombre" id="name" autocomplete="off">
+            </div>
+            <button id="find">Buscar jugador</button>
+            <img id="loading" src="loading.gif" alt="">
+        </div>
+        
+    </div>
     
 
-
-    <div style="display: flex; width: 95vw; position: relative;">
-        <p id="userCont">You : <span id="user"></span></p>
-        <p style="position: absolute; right: 0;" id="oppNameCont">Opponent : <span id="oppName"></span></p>
-
-    </div>
-    <br>
-    <p id="valueCont">You are plaing as <span id="value"></span></p>
-    <br>
-    <p id="whosTurn">X's Turn</p>
-    <div>
-        <p style="font-size: 1.2rem;" id="enterName">Ingrese su nombre: </p>
-
-        <input type="text" placeholder="Nombre" id="name" autocomplete="off">
-    </div>
-    <button id="find">Buscar jugador</button>
-    <img id="loading" src="loading.gif" alt="">
-
-    <div id="bigcont">
+    <div id="boardgame">
+        <div id="gameinfo">
+            <div id="userCont">Tú: <span id="user"></span></div>
+            <div id="oppNameCont">Oponente: <span id="oppName"></span></div>
+        </div>
+        <p id="valueCont">You are plaing as <span id="value"></span></p>
+        <p id="whosTurn">X's Turn</p>
         <div id="cont">
-
             <button id="btn1" class="btn"></button>
             <button id="btn2" class="btn"></button>
             <button id="btn3" class="btn"></button>
