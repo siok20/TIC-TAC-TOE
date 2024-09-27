@@ -20,6 +20,7 @@ Este proyecto nos ayuda a reforzar conocimientos sobre desarrollo de software, c
 - **GET /games/:id:** Obtiene el estado actual de la partida.
 - **PATCH /games/:id:** Actualiza el estado de la partida con un movimiento válido.
 
+
 ### Dockerización del juego de Tic-Tac-Toe
 -  Usar Docker Compose para gestionar los servicios.
 - **Estado Actual:**
@@ -77,3 +78,35 @@ Nota: Actualmente, estás en la rama feature/console, que contiene la primera ve
     cd src
     npm test
 ```
+
+### Ejemplo de Partida
+
+#### Creación de la partida
+    
+![Partida creada](/tic-tac-toe/images/img1.png)
+
+#### Movimiento 1
+
+![Partida creada](/tic-tac-toe/images/img2.png)
+
+#### Movimiento 2
+
+![Partida creada](/tic-tac-toe/images/img3.png)
+
+#### Movimiento 3
+
+![Partida creada](/tic-tac-toe/images/img4.png)
+
+#### Movimiento 4
+
+![Partida creada](/tic-tac-toe/images/img5.png)
+
+#### Movimiento 5
+
+![Partida creada](/tic-tac-toe/images/img6.png)
+
+#### Resultado Final
+
+![Partida creada](/tic-tac-toe/images/img7.png)
+
+Como pudimos ver nuestro programa nos muestra en cada movimiento es estado de nuestra partida y al final si hay un ganado de lo contrario nos sale empate. También pudimos ver como la tabla de puntos (scores) incrementó para el ganador.
