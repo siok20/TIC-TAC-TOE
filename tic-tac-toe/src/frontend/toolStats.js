@@ -13,27 +13,53 @@ document.getElementById("Bgames").addEventListener('click', function(){
 })
 
 socket.on("viewGames", (e)=>{
-    
-    let table = document.getElementById("games")
+
+    document.getElementById("players").style.display = "none"
+    document.getElementById("games").style.display = "block"
+
+    let tableBody = document.createElement('tbody')
 
     e.games.forEach(game => {
 
-        let newRow = table.insertRow()
+        let newRow = document.createElement('tr')
 
-        let id = newRow.insertCell(0)
-        let versus = newRow.insertCell(1)
-        let winner = newRow.insertCell(2)
+        newRow.innerHTML = `<td>${game.id}</td>
+                            <td>${game.p1.name} vs. ${game.p2.name} </td>
+                            <td>${game.winner}</td>`
 
-        id.innerHTML = game.id
-        versus.innerHTML = `${game.p1.name} vs. ${game.p2.name}`
-        winner.innerHTML = game.winner
-
+        tableBody.appendChild(newRow)
     });
+
+    let oldTbody = document.querySelector('#games tbody');
+    if (oldTbody) {
+        oldTbody.remove();
+    }
+    document.querySelector('#games').appendChild(tableBody);
 
 })
 
 socket.on("viewPlayers", (e)=>{
-    let table = document.getElementById("players")
 
+    document.getElementById("games").style.display = "none"
+    document.getElementById("players").style.display = "block"
 
+    let tableBody = document.createElement('tbody')
+
+    e.players.forEach(player => {
+
+        let newRow = document.createElement('tr')
+
+        newRow.innerHTML = `<td>${player.name}</td>
+                            <td>${player.wins/2}</td>
+                            <td>${player.wins}</td>
+                            <td>${player.wins/player.games}</td>`
+
+        tableBody.appendChild(newRow)
+    });
+
+    let oldTbody = document.querySelector('#players tbody');
+    if (oldTbody) {
+        oldTbody.remove();
+    }
+    document.querySelector('#players').appendChild(tableBody);
 })

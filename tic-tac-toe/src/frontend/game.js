@@ -89,10 +89,10 @@ socket.on("playing", (e) => {
         document.getElementById(`${p2id}`).style.color = "black"
     }
 
-    check(name, foundObject.sum)
+    check(name, foundObject.sum, foundObject)
 })
 
-function check(name, sum) {
+function check(name, sum, foundObject) {
     document.getElementById("btn1").innerText == '' ? b1 = "a" : b1 = document.getElementById("btn1").innerText
     document.getElementById("btn2").innerText == '' ? b2 = "b" : b2 = document.getElementById("btn2").innerText
     document.getElementById("btn3").innerText == '' ? b3 = "c" : b3 = document.getElementById("btn3").innerText
@@ -103,8 +103,12 @@ function check(name, sum) {
     document.getElementById("btn8").innerText == '' ? b8 = "h" : b8 = document.getElementById("btn8").innerText
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
+    let winner = " - "
+
     if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
-        socket.emit("gameOver", { name: name })
+        currentPlayer = "X"
+            sum % 2 == 0 ? winner = foundObject.p1.name : winner = foundObject.p2.name
+            socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id  })
 
         setTimeout(() => {
             sum % 2 == 0 ? alert("X WON !!") : alert("O WON !!")
@@ -114,7 +118,8 @@ function check(name, sum) {
         }, 100)
     }
     else if (sum == 10) {
-        socket.emit("gameOver", { name: name })
+        currentPlayer = "X"
+        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
         setTimeout(() => {
             alert("DRAW!!")
             setTimeout(() => {
