@@ -50,8 +50,8 @@ socket.on("viewPlayers", (e)=>{
         let newRow = document.createElement('tr')
 
         newRow.innerHTML = `<td>${player.name}</td>
-                            <td>${player.wins/2}</td>
                             <td>${player.wins}</td>
+                            <td>${player.points}</td>
                             <td>${player.wins/player.games}</td>`
 
         tableBody.appendChild(newRow)

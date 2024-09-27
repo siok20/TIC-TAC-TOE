@@ -1,6 +1,6 @@
 FROM node:14
 
-WORKDIR /app
+WORKDIR /app/tic-tac-toe
 
 COPY package*.json ./
 

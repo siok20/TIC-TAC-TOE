@@ -72,7 +72,8 @@ io.on("connection",(socket)=>{
                     ply1 = {
                         name: arr[0],
                         games: 1,
-                        wins: 0
+                        wins: 0,
+                        points: 0
                     }
                     players.push(ply1)
                 }
@@ -84,7 +85,8 @@ io.on("connection",(socket)=>{
                     ply2 = {
                         name: arr[1],
                         games: 1,
-                        wins: 0
+                        wins: 0,
+                        points: 0
                     }
                     players.push(ply2)
                 }
@@ -116,7 +118,7 @@ io.on("connection",(socket)=>{
                 
                 arr.splice(0,2)
                 
-                io.to(gameId).emit("find", { allPlayers: [obj] })
+                io.to(gameId).emit("find", { allPlayers: [obj], id: gameId })
 
                 gameId++
             }
@@ -127,14 +129,14 @@ io.on("connection",(socket)=>{
     
     socket.on("playing",(e)=>{
         if(e.value=="X"){
-            let objToChange=playingArray.find(obj=>obj.p1.name===e.name)
+            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p1.name===e.name)
             
             objToChange.p1.move=e.id
             objToChange.sum++
 
         }
         else if(e.value=="O"){
-            let objToChange=playingArray.find(obj=>obj.p2.name===e.name)
+            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p2.name===e.name)
             
             objToChange.p2.move=e.id  
             objToChange.sum++
@@ -147,20 +149,22 @@ io.on("connection",(socket)=>{
     })
     
     socket.on("gameOver",(e)=>{
-        let play = playingArray.filter(obj=>obj.p1.name!==e.name)
-        let player = players.find(obj => obj.name == e.winner)
 
-        if (player) {
-            // Si se encuentra el jugador, incrementar sus victorias
-            player.wins++;
-            console.log(`El jugador ${e.winner} ha ganado una partida.`, player);
-        } else {
-            // Si no se encuentra, mostrar un mensaje de error
-            console.error(`No se encontró al jugador con nombre ${e.winner}.`);
+        let me = players.find(obj => obj.name == e.name)
+
+        if(e.winner == " - "){
+            me.points++
+        }
+        else if (e.winner == me.name){
+            me.points++;
+            me.points++;
+
+            me.wins++;
         }
 
         playingArray.find(obj => obj.id == e.id).winner = e.winner
         console.log(playingArray)
+        console.log(players)
     })
 
     //Acceder a un juego por su id

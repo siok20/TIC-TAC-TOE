@@ -8,6 +8,7 @@ document.getElementById("whosTurn").style.display = "none"
 const socket = io();
 
 let name;
+let currentId;
 let currentPlayer = "X"; 
 
 document.getElementById('find').addEventListener("click", function () {
@@ -27,6 +28,8 @@ document.getElementById('find').addEventListener("click", function () {
 socket.on("find", (e) => {
     let allPlayersArray = e.allPlayers
     console.log("html", allPlayersArray)
+
+    currentId = e.id;
 
     if (name != '') {
         document.getElementById("userCont").style.display = "block"
@@ -61,12 +64,13 @@ document.querySelectorAll(".btn").forEach(e => {
             return;
         }
         e.innerText = value
-        socket.emit("playing", { value: value, id: e.id, name: name })
+        socket.emit("playing", { value: value, id: e.id, name: name, idGame: currentId })
     })
 })
 
 socket.on("playing", (e) => {
-    const foundObject = (e.allPlayers).find(obj => obj.p1.name == `${name}` || obj.p2.name == `${name}`);
+    const foundObject = (e.allPlayers).find(obj => currentId == obj.id && (obj.p1.name == `${name}` || obj.p2.name == `${name}`));
+    console.log(currentId)
     p1id = foundObject.p1.move
     p2id = foundObject.p2.move
 
