@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 ## FEATURE/ API-REST
 ESTA RAMA TIENE LAS ÚLTIMAS ACTUALIZACIONES
 Esta rama se creó con la finalidad de tener preparado un servidor que atenderá las solicitudes http del proyecto.
+
+## Conexiones
+Se conectan los archivos de la siguiente forma
+
+```
+index.html <-> game.js <--------
+                               |
+games.html <-> tool.js <-------|---> app.js
+                               |  
+stats.html <-> toolStats.js <---
+```
 -----------------------------------------------------------------------------------------------------------------
 #Inicialización
 Se creo la rama feature/api-rest a partir de la rama main.

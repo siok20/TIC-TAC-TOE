@@ -7,9 +7,14 @@ document.getElementById("whosTurn").style.display = "none"
 
 const socket = io();
 
+//Nombre del jugador actual
 let name;
+//Almacenará el id de la partida actual
+let currentId;
+//El valor de juego que toca primero
 let currentPlayer = "X"; 
 
+//El juego empieza cuando se clickea el boton find
 document.getElementById('find').addEventListener("click", function () {
     name = document.getElementById("name").value
     document.getElementById("user").innerText = name 
@@ -17,6 +22,7 @@ document.getElementById('find').addEventListener("click", function () {
         alert("Please enter a name")
     }
     else {
+        //Si el nombre es valido se envia el evento find a app.js con el nombre del jugador actual
         socket.emit("find", { name: name })
 
         document.getElementById("loading").style.display = "block"
@@ -24,9 +30,17 @@ document.getElementById('find').addEventListener("click", function () {
     }
 })
 
+//Recibe el retorno del evento find de parte de app.js
 socket.on("find", (e) => {
+    /*
+    El evento find alista visualmente toda la pagina 
+    con logica JS, el nombre del jugador y del oponente
+    e internanemente cambia el currentId al de la partida
+    */
     let allPlayersArray = e.allPlayers
     console.log("html", allPlayersArray)
+
+    currentId = e.id;
 
     if (name != '') {
         document.getElementById("userCont").style.display = "block"
@@ -44,14 +58,15 @@ socket.on("find", (e) => {
     let oppName
     let value
 
-    const foundObject = allPlayersArray.find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
-    foundObject.p1.p1name == `${name}` ? oppName = foundObject.p2.p2name : oppName = foundObject.p1.p1name
-    foundObject.p1.p1name == `${name}` ? value = foundObject.p1.p1value : value = foundObject.p2.p2value
+    const foundObject = allPlayersArray.find(obj => obj.p1.name == `${name}` || obj.p2.name == `${name}`);
+    foundObject.p1.name == `${name}` ? oppName = foundObject.p2.name : oppName = foundObject.p1.name
+    foundObject.p1.name == `${name}` ? value = foundObject.p1.value : value = foundObject.p2.value
 
     document.getElementById("oppName").innerText = oppName
     document.getElementById("value").innerText = value
 })
 
+//Añade eventos a cada boton al momento de clickearlos
 document.querySelectorAll(".btn").forEach(e => {
     e.addEventListener("click", function () {
         let value = document.getElementById("value").innerText
@@ -61,15 +76,22 @@ document.querySelectorAll(".btn").forEach(e => {
             return;
         }
         e.innerText = value
-        socket.emit("playing", { value: value, id: e.id, name: name })
+        //En caso sea un turno valido emitimos el evento playing a app.js
+        //Envia el valor de juego actual, el id del boton seleccionado, el nombre del jugador y el id de la partida
+        socket.emit("playing", { value: value, id: e.id, name: name, idGame: currentId })
     })
 })
 
+//Recibe el evento playing de app.js
 socket.on("playing", (e) => {
-    const foundObject = (e.allPlayers).find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
-    p1id = foundObject.p1.p1move
-    p2id = foundObject.p2.p2move
+    //Encuentra del objeto de la partida por su id
+    const foundObject = (e.allPlayers).find(obj => currentId == obj.id && (obj.p1.name == `${name}` || obj.p2.name == `${name}`));
 
+    //Toma los movimientos de ambos jugadores
+    p1id = foundObject.p1.move
+    p2id = foundObject.p2.move
+
+    //El turno se determina por si la cantidad de movimientos hechos es par o impar
     if ((foundObject.sum) % 2 == 0) {
         currentPlayer = "O";  // Cambiar el turno a O
         document.getElementById("whosTurn").innerText = "O's Turn"
@@ -78,6 +100,7 @@ socket.on("playing", (e) => {
         document.getElementById("whosTurn").innerText = "X's Turn"
     }
 
+    //Pone visualmente a los botones el valor que se le ha asignado
     if (p1id != '') {
         document.getElementById(`${p1id}`).innerText = "X"
         document.getElementById(`${p1id}`).disabled = true
@@ -89,10 +112,14 @@ socket.on("playing", (e) => {
         document.getElementById(`${p2id}`).style.color = "black"
     }
 
-    check(name, foundObject.sum)
+    //Checekamos el estado de la partida
+    check(name, foundObject.sum, foundObject)
 })
 
-function check(name, sum) {
+//Checkea el estado de la partida
+function check(name, sum, foundObject) {
+    //Asiganmos las variables bi, que representan a cada boton
+    //Si un boton no ha sido clickeado le toca una letra
     document.getElementById("btn1").innerText == '' ? b1 = "a" : b1 = document.getElementById("btn1").innerText
     document.getElementById("btn2").innerText == '' ? b2 = "b" : b2 = document.getElementById("btn2").innerText
     document.getElementById("btn3").innerText == '' ? b3 = "c" : b3 = document.getElementById("btn3").innerText
@@ -103,9 +130,20 @@ function check(name, sum) {
     document.getElementById("btn8").innerText == '' ? b8 = "h" : b8 = document.getElementById("btn8").innerText
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
-    if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
-        socket.emit("gameOver", { name: name })
+    //Establecemos el ganador como empate momentaneamente
+    let winner = " - "
 
+    //Combinaciones para victoria
+    if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
+        //En caso haya victoria, retornamos el current player a X
+        currentPlayer = "X"
+        //Segun el turno verificamos quien era el ganador
+        sum % 2 == 0 ? winner = foundObject.p1.name : winner = foundObject.p2.name
+        //Emitimos el evento juego terminado a app.js
+        //Enviamos el jugador presente, el ganador y el id de la partida
+        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id  })
+
+        //Emitimos una alerta y recargamos la pagina
         setTimeout(() => {
             sum % 2 == 0 ? alert("X WON !!") : alert("O WON !!")
             setTimeout(() => {
@@ -113,8 +151,14 @@ function check(name, sum) {
             }, 2000)
         }, 100)
     }
+    //Con 10 clicks ya la partida queda en empate
     else if (sum == 10) {
-        socket.emit("gameOver", { name: name })
+        //En caso haya victoria, retornamos el current player a X
+        currentPlayer = "X"
+        //Emitimos el evento juego terminado a app.js
+        //Enviamos el jugador presente, el ganador y el id de la partida
+        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
+        //Emitimos una alerta y recargamos la pagina
         setTimeout(() => {
             alert("DRAW!!")
             setTimeout(() => {
