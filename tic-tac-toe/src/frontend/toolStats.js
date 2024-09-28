@@ -1,17 +1,21 @@
 const socket = io()
 
+//Emite el evento viewPlayers a app.js luego de un clic en el boton
 document.getElementById("Bplayers").addEventListener('click', function(){
     
     socket.emit("viewPlayers", {})
 
 })
 
+//Emite el evento viewGames a app.js luego de un clic en el boton
 document.getElementById("Bgames").addEventListener('click', function(){
     
     socket.emit("viewGames", {})
 
 })
 
+//Recepciona el evento viewGames de app.js
+//Muestra en una tabla todos los juegos mediante logica JS
 socket.on("viewGames", (e)=>{
 
     document.getElementById("players").style.display = "none"
@@ -38,6 +42,8 @@ socket.on("viewGames", (e)=>{
 
 })
 
+//Recepciona el evento viewPlayers de app.js
+//Muestra en una tabla todos los juagdores mediante logica JS
 socket.on("viewPlayers", (e)=>{
 
     document.getElementById("games").style.display = "none"
