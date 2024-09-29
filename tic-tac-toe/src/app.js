@@ -3,11 +3,12 @@ const app = express();
 const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
-const promClient = require('prom-client');
+
 
 // Crear el servidor HTTP
 const server = http.createServer(app);
 const io = new Server(server);  
+
 
 const client = require('prom-client');
 const { collectDefaultMetrics, register, Counter, Gauge } = client;
@@ -29,15 +30,14 @@ const totalHttpRequestDuration = new Gauge({
     labelNames: httpMetricsLabelNames,
   });
 
-  const partidasActivas = new promClient.Gauge({
+const partidasActivas = new client.Gauge({ 
     name: 'tic_tac_toe_active_games',
     help: 'Número de partidas activas en el sistema',
 });
 
-const puntuacionJugador = new promClient.Gauge({
+const puntuacionJugador = new client.Gauge({
     name: 'tic_tac_toe_player_score',
     help: 'Puntuaciones de los jugadores',
-    labelNames: ['player_name'],
 });
   
 
@@ -66,7 +66,7 @@ partidasActivas.set(0);
 
 io.on("connection",(socket)=>{
 
-
+ 
     socket.on("find",(e)=>{
         
         if(e.name!=null){
@@ -95,7 +95,7 @@ io.on("connection",(socket)=>{
                 }
                 playingArray.push(obj)
 
-                partidasActivas.inc(); 
+                partidasActivas.inc(); // Incrementa cuando se inicia una nueva partida
                 
                 arr.splice(0,2)
                 
@@ -128,7 +128,7 @@ io.on("connection",(socket)=>{
     
     socket.on("gameOver",(e)=>{
         playingArray=playingArray.filter(obj=>obj.p1.p1name!==e.name)
-        partidasActivas.dec();
+        partidasActivas.dec();  //Decrementa cuando una partida termina
         puntuacionJugador.labels(e.name).inc(); 
         console.log(playingArray)
 
