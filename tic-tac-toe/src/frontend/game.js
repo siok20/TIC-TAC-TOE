@@ -1,9 +1,5 @@
-document.getElementById("loading").style.display = "none"
-document.getElementById("bigcont").style.display = "none"
-document.getElementById("userCont").style.display = "none"
-document.getElementById("oppNameCont").style.display = "none"
-document.getElementById("valueCont").style.display = "none"
-document.getElementById("whosTurn").style.display = "none"
+document.getElementById("loading").style.display = "none";
+document.getElementById("boardgame").style.display = "none";
 
 const socket = io();
 
@@ -25,8 +21,8 @@ document.getElementById('find').addEventListener("click", function () {
         //Si el nombre es valido se envia el evento find a app.js con el nombre del jugador actual
         socket.emit("find", { name: name })
 
-        document.getElementById("loading").style.display = "block"
-        document.getElementById("find").disabled = true;
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("find").style.display= "none";
     }
 })
 
@@ -43,16 +39,8 @@ socket.on("find", (e) => {
     currentId = e.id;
 
     if (name != '') {
-        document.getElementById("userCont").style.display = "block"
-        document.getElementById("oppNameCont").style.display = "block"
-        document.getElementById("valueCont").style.display = "block"
-        document.getElementById("loading").style.display = "none"
-        document.getElementById("name").style.display = "none"
-        document.getElementById("find").style.display = "none"
-        document.getElementById("enterName").style.display = "none"
-        document.getElementById("bigcont").style.display = "block"
-        document.getElementById("whosTurn").style.display = "block"
-        document.getElementById("whosTurn").innerText = "X's Turn"
+        document.getElementById("main").style.display = "none";
+        document.getElementById("boardgame").style.display= "block";
     }
 
     let oppName
@@ -94,10 +82,10 @@ socket.on("playing", (e) => {
     //El turno se determina por si la cantidad de movimientos hechos es par o impar
     if ((foundObject.sum) % 2 == 0) {
         currentPlayer = "O";  // Cambiar el turno a O
-        document.getElementById("whosTurn").innerText = "O's Turn"
+        document.getElementById("whosTurn").innerText = "Turno de O"
     } else {
         currentPlayer = "X";  // Cambiar el turno a X
-        document.getElementById("whosTurn").innerText = "X's Turn"
+        document.getElementById("whosTurn").innerText = "Turno de X"
     }
 
     //Pone visualmente a los botones el valor que se le ha asignado
@@ -130,8 +118,8 @@ function check(name, sum, foundObject) {
     document.getElementById("btn8").innerText == '' ? b8 = "h" : b8 = document.getElementById("btn8").innerText
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
-    //Establecemos el ganador como empate momentaneamente
-    let winner = " - "
+    if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
+        socket.emit("Derrota", { name: name })
 
     //Combinaciones para victoria
     if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
@@ -160,10 +148,10 @@ function check(name, sum, foundObject) {
         socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
         //Emitimos una alerta y recargamos la pagina
         setTimeout(() => {
-            alert("DRAW!!")
+            alert("Empate!!")
             setTimeout(() => {
                 location.reload()
             }, 2000)
         }, 100)
     }
-}
+}}

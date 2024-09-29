@@ -1,5 +1,5 @@
-user = document.getElementById("userCont")
-opp = document.getElementById("oppNameCont")
+const user = document.getElementById("userCont")
+const opp = document.getElementById("oppNameCont")
 document.getElementById("notFound").style.display = "none"
 
 const socket = io();

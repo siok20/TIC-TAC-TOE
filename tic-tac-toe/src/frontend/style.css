@@ -4,17 +4,54 @@
 }
 
 body {
-    background-color: rgb(255, 255, 255);
-    display: grid;
-    place-items: center;
-    font-family: 'Tilt Warp', cursive;
+    background-color: black;
+    font-family: 'Tilt Warp';
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.name-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#boardgame {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#valueCont, #whosTurn {
+    text-align: center;
+    margin: 20px 0;
+}
+
 
 h1 {
     margin: 50px 0 50px 0;
     font-size: 5rem;
-    color: rgb(32, 183, 93);
-    -webkit-text-stroke: .5px black;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke: .5px rgb(0, 0, 0);
+}
+
+.nombre {
+    color: #fff;
 }
 
 input {
@@ -34,33 +71,41 @@ img {
 
 #cont {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    width: auto;
+    grid-template-columns: 100px 100px 100px;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 20px;
 }
 
 .btn {
-
     font-size: 2rem;
     width: 100px;
     height: 100px;
     cursor: pointer;
     margin: 0;
-    background-color: rgb(206, 203, 203);
-    border-radius: 10px;
-
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
 }
 
 #find, #Bplayers, #Bgames {
     font-size: 1.5rem;
-    color: white;
+    color: black;
     cursor: pointer;
     padding: 7px;
-    border-radius: 10px;
+    border: none;
+    border-radius: 25px;
     width: 250px;
-    background-color: rgb(0, 0, 0);
+    background-color: #fff;
+    transition: background-color 0.15s;
+}
+
+#find:hover {
+    background-color: rgb(7, 187, 67);
 }
 
 .btn:hover {
-    background-color: rgb(68, 124, 124);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 button.enabled {
@@ -70,8 +115,14 @@ button.enabled {
     background-color: rgb(68, 124, 124);
 }
 
-p {
-    font-size: 2rem;
+#gameinfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    font-family: sans-serif;
+    font-size: xx-large;
 }
 
 table {

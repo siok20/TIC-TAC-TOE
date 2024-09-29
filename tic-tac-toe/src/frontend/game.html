@@ -7,33 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-    <div id="main">
-        <h1>Tic-Tac-Toe</h1>
-        <div class="name-box">
-            <h2 class="nombre">Escribe tu nombre :D</h2>
-            <div>
-                <input type="text" placeholder="Nombre" id="name" autocomplete="off">
-            </div>
-            <button id="find">Buscar jugador</button>
-            <img id="loading" src="loading.gif" alt="">
-        </div>
-        
+
+    <h1>Tic-Tac-Toe</h1>
+
+
+    <div style="display: flex; width: 95vw; position: relative;">
+        <p id="userCont">Tu: <span id="user"></span></p>
+        <p style="position: absolute; right: 0;" id="oppNameCont">Contrincante : <span id="oppName"></span></p>
+
     </div>
+    <br>
+    <p id="valueCont">Es el turno de  <span id="value"></span></p>
+    <br>
+    <p id="whosTurn">X's Turno</p>
+    
     
 
-    <div id="boardgame">
-        <div id="gameinfo">
-            <div id="userCont">Tú: <span id="user"></span></div>
-            <div id="oppNameCont">Oponente: <span id="oppName"></span></div>
-        </div>
-        <div id="valueCont">Estás jugando como:  <span id="value"></span></div>
-        <div id="whosTurn">Turno de X</div>
+    <div id="bigcont">
         <div id="cont">
+
             <button id="btn1" class="btn"></button>
             <button id="btn2" class="btn"></button>
             <button id="btn3" class="btn"></button>
@@ -49,6 +46,5 @@
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
-<script src="game.js"></script>
 
 </html>
