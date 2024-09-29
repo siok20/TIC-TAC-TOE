@@ -1,5 +1,3 @@
-# pc1-grupo11 ~ branch
-
 ## api-rest/docker
 Esta rama se creo con la finalidad de dockerizar el proyecto
 
