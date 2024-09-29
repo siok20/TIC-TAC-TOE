@@ -104,7 +104,7 @@ function check(name, sum) {
     else if (sum == 10) {
         socket.emit("gameOver", { name: name })
         setTimeout(() => {
-            alert("DRAW!!")
+            alert("Empate!!")
             setTimeout(() => {
                 location.reload()
             }, 2000)

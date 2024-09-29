@@ -4,42 +4,56 @@
 }
 
 body {
-    background-color: rgb(0, 0, 0);
+    background-color: black;
     font-family: 'Tilt Warp';
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
-#main{
-    display: center;
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.name-box{
+.name-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#boardgame{
+#boardgame {
     color: #fff;
-    display: center;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
+
+#valueCont, #whosTurn {
+    text-align: center;
+    margin: 20px 0;
+}
+
 
 h1 {
     margin: 50px 0 50px 0;
     font-size: 5rem;
     color: rgb(255, 255, 255);
-    -webkit-text-stroke: .5px rgb(255, 255, 255);
+    -webkit-text-stroke: .5px rgb(0, 0, 0);
 }
 
 .nombre {
     color: #fff;
 }
+
 input {
     margin-bottom: 20px;
     padding: 5px;
@@ -57,8 +71,11 @@ img {
 
 #cont {
     display: grid;
-    width: 310px;
+    width: auto;
     grid-template-columns: 100px 100px 100px;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 20px;
 }
 
 .btn {
@@ -67,9 +84,8 @@ img {
     height: 100px;
     cursor: pointer;
     margin: 0;
-    background-color: rgb(18, 144, 194);
+    background-color: rgb(255, 255, 255);
     border-radius: 15px;
-
 }
 
 #find {
@@ -82,15 +98,14 @@ img {
     width: 250px;
     background-color: #fff;
     transition: background-color 0.15s;
-
 }
+
 #find:hover {
     background-color: rgb(7, 187, 67);
 }
 
-
 .btn:hover {
-    background-color: rgba(62,45,158,0.8)
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 button.enabled {
@@ -100,6 +115,9 @@ button.enabled {
 #gameinfo {
     display: flex;
     justify-content: space-between;
-    font-size: 25px;
     align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    font-family: sans-serif;
+    font-size: xx-large;
 }
