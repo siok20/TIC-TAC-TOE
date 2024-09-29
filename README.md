@@ -1,41 +1,43 @@
-# pc1-grupo11
+## Feature/HTML
 
+En esta rama del proyecto agregamos los cambios en los archivos .html y .css.
 
+----------------------------
 
-# Game.js
- este código gestiona la búsqueda de un usuario enviando su nombre a través de un socket y proporciona retroalimentación visual al usuario (mostrando una animación de carga y desactivando el botón).
-
-
-![](assets/getElementById.png)
-
-
-
-Este código actualiza la interfaz de usuario cuando el servidor responde con la lista de jugadores, muestra información sobre el oponente encontrado, y prepara la interfaz para el juego (como mostrar el turno actual). Es parte de un flujo de un juego multijugador donde dos jugadores están siendo emparejados y se actualiza el estado del juego en función de sus datos.
-
-![](assets/sockertFIND.png)
-
-
-Este código gestiona la interacción del jugador de Tic-Tac-Toe. Cada vez que un jugador hace clic en una casilla:
-1. Verifica si es su turno.
-2. Actualiza la casilla del jugador (X u O).
-3. Informa al servidor sobre el movimiento hecho, enviando los detalles del turno, como el jugador y la casilla seleccionada.
-
-De esta forma, el juego puede sincronizarse entre los jugadores, permitiendo que el servidor controle el estado y valide los movimientos
-
-![](assets/querySelectorAll.png)
-
-
-Este código maneja el evento playing que se emite por el servidor a través del socket. Cada vez que un jugador realiza un movimiento, el servidor envía información que actualiza la interfaz del juego y el estado del turno. lo que hace es
-1. Escucha el evento playing emitido por el servidor para obtener los movimientos realizados por ambos jugadores.
-2. Actualiza el tablero visualmente mostrando las "X" y "O" en las casillas correspondientes.
-3. Cambia el turno entre los jugadores "X" y "O" y muestra el turno actual en la interfaz.
-4. Desactiva las casillas que ya fueron seleccionadas para evitar que se elijan nuevamente.
-
-Esto asegura que el juego se sincronice entre los jugadores y que la interfaz siempre refleje el estado correcto de la partida.
-
-![](assets/playing.png)
-
-
-La función check es responsable de verificar si hay un ganador o si el juego ha terminado en empate en una partida de Tic-Tac-Toe. También gestiona la emisión de eventos al servidor en caso de victoria o empate y recarga la página para reiniciar el juego.
-
-![](assets/funcionCheck.png)
+En esta parte del main se tiene lo esencial para mostrar al inicio: El título del juego (tic-tac-toe), una etiqueta que te pide tu nombre, el cuadro input para el nombre y el botón para buscar otro jugador. 
+```bash
+ <div id="main">
+        <h1>Tic-Tac-Toe</h1>
+        <div class="name-box">
+            <h2 class="nombre">Escribe tu nombre :D</h2>
+            <div>
+                <input type="text" placeholder="Nombre" id="name" autocomplete="off">
+            </div>
+            <button id="find">Buscar jugador</button>
+            <img id="loading" src="loading.gif" alt="">
+        </div>
+        
+    </div>
+```
+Luego de que hayan 2 jugadores se ocultará con un poco de javascript lo del main, para pasar a la parte del tablero de juego, aquí estará los nombres de los oponentes, el aviso del turno actual y el tres en raya.
+```bash
+    <div id="boardgame">
+        <div id="gameinfo">
+            <div id="userCont">Tú: <span id="user"></span></div>
+            <div id="oppNameCont">Oponente: <span id="oppName"></span></div>
+        </div>
+        <div id="valueCont">Estás jugando como:  <span id="value"></span></div>
+        <div id="whosTurn">Turno de X</div>
+        <div id="cont">
+            <button id="btn1" class="btn"></button>
+            <button id="btn2" class="btn"></button>
+            <button id="btn3" class="btn"></button>
+            <button id="btn4" class="btn"></button>
+            <button id="btn5" class="btn"></button>
+            <button id="btn6" class="btn"></button>
+            <button id="btn7" class="btn"></button>
+            <button id="btn8" class="btn"></button>
+            <button id="btn9" class="btn"></button>
+        </div>
+    </div>
+```
