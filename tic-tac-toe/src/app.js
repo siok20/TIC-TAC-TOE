@@ -4,9 +4,11 @@ const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 
+
 // Crear el servidor HTTP
 const server = http.createServer(app);
 const io = new Server(server);  
+
 
 const client = require('prom-client');
 const { collectDefaultMetrics, register, Counter, Gauge } = client;
@@ -14,20 +16,26 @@ const { collectDefaultMetrics, register, Counter, Gauge } = client;
 // Recolectar métricas predeterminadas cada 5 segundos
 collectDefaultMetrics({timeout: 5000})
 
-// Definir métricas
-const httpMetricsLabelNames = ['method', 'path'];
-const totalHttpRequestCount = new Counter({
-  name: 'nodejs_http_total_count',
-  help: 'Total number of HTTP requests',
-  labelNames: httpMetricsLabelNames,
-});
-
+// definir metricas 
 const totalHttpRequestDuration = new Gauge({
     name: 'nodejs_http_total_duration',
     help: 'The last duration of the last request',
     labelNames: httpMetricsLabelNames,
   });
 
+// contabiliza el numero de partidas
+const partidasActivas = new client.Gauge({ 
+    name: 'tic_tac_toe_active_games',
+    help: 'Número de partidas activas en el sistema',
+});
+
+// contabiliz la puntuacion del jugador
+const puntuacionJugador = new client.Gauge({
+    name: 'tic_tac_toe_player_score',
+    help: 'Puntuaciones de los jugadores',
+    
+});
+  
 
 // Middleware para medir las solicitudes HTTP
 app.use((req, res, next) => {
@@ -43,7 +51,7 @@ app.use((req, res, next) => {
   });
 
 
-
+  
 // Servir archivos estáticos desde la carpeta actual
 app.use(express.static(path.resolve(__dirname, 'frontend'))); // Usa __dirname para la ruta correcta
 
@@ -55,10 +63,10 @@ let playingArray=[];
 let players = []; 
 //Añadimos un Id a cada partida que iremos cambiando 
 let gameId = 1;
+partidasActivas.set(0);
 
 io.on("connection",(socket)=>{
 
-    //Evento e busqueda de ´partida
     socket.on("find",(e)=>{
         
         if(e.name!=null){
@@ -138,6 +146,8 @@ io.on("connection",(socket)=>{
 
                 //Añadimos este objeto a la lista de partidas
                 playingArray.push(obj)
+
+                partidasActivas.inc(); // Incrementa cuando se inicia una nueva partida
                 
                 //Borramos los dos nombres de la lista de espera
                 arr.splice(0,2)
@@ -182,9 +192,12 @@ io.on("connection",(socket)=>{
     
     //evento de finalizacion de partida
     socket.on("gameOver",(e)=>{
+
         //busca al jugador que emitió el evento
         let me = players.find(obj => obj.name == e.name)
 
+        partidasActivas.dec();  //Decrementa cuando una partida termina
+        puntuacionJugador.labels(e.name).inc();
         //Si el juego quedó en empate se suma solo un punto
         if(e.winner == " - "){
             me.points++
@@ -202,6 +215,10 @@ io.on("connection",(socket)=>{
        
         console.log(playingArray)
         console.log(players)
+
+       
+
+
     })
 
     //Acceder a un juego por su id
