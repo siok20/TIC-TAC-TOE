@@ -460,3 +460,32 @@ registrando así el rendimiento del jugador en el sistema.
 
 ![](assets/gameover.png)
 
+# Grafana
+
+
+## Monitoreo de Partidas Activas
+La gráfica muestra el número de partidas activas en tiempo real. Cada vez que se inicia una nueva partida, el valor de partidasActivas se incrementa, y cuando una partida finaliza, este valor se reduce. Esto permite un monitoreo continuo de las partidas activas en el sistema.
+
+```shell
+partidasActivas.inc();  // Incrementa cuando se inicia una partida
+partidasActivas.dec();  // Decrementa cuando una partida termina
+
+```
+![](assets/activegame.png)
+
+## Puntuacion de los jugadores
+La gráfica refleja la métrica de puntuación de los jugadores en el juego Tic-Tac-Toe, mostrando cómo sus puntuaciones cambia a medida que avanza el juego
+
+```sehll
+puntuacionJugador.labels(e.name).inc();  // Incrementa la puntuación del jugador 
+```
+
+![](assets/scoreplayer.png)
+
+## Latencia de API
+La latencia de la API se evalua mediante un histograma de Prometheus, el cual monitorea y registra la duración de cada solicitud HTTP. Esta métrica proporciona información valiosa sobre el tiempo de respuesta de la API, permitiendo realizar un análisis detallado del rendimiento de la aplicación.
+
+![](assets/nodehttptotalduration.png)
+
+
+
