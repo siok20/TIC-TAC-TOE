@@ -16,6 +16,13 @@ const { collectDefaultMetrics, register, Counter, Gauge } = client;
 // Recolectar métricas predeterminadas cada 5 segundos
 collectDefaultMetrics({timeout: 5000})
 
+// Definir métricas
+const httpMetricsLabelNames = ['method', 'path'];
+const totalHttpRequestCount = new Counter({
+  name: 'nodejs_http_total_count',
+  help: 'Total number of HTTP requests',
+  labelNames: httpMetricsLabelNames,
+});
 // definir metricas 
 const totalHttpRequestDuration = new Gauge({
     name: 'nodejs_http_total_duration',
@@ -33,7 +40,7 @@ const partidasActivas = new client.Gauge({
 const puntuacionJugador = new client.Gauge({
     name: 'tic_tac_toe_player_score',
     help: 'Puntuaciones de los jugadores',
-    
+    labelNames: ['name']
 });
   
 
@@ -195,12 +202,11 @@ io.on("connection",(socket)=>{
 
         //busca al jugador que emitió el evento
         let me = players.find(obj => obj.name == e.name)
-
-        partidasActivas.dec();  //Decrementa cuando una partida termina
-        puntuacionJugador.labels(e.name).inc();
+        partidasActivas.dec(0.5);  //Decrementa cuando una partida termina
         //Si el juego quedó en empate se suma solo un punto
         if(e.winner == " - "){
             me.points++
+            puntuacionJugador.labels(e.name).inc();
         }
         //Si ganas te sumas 2 puntos y una victoria
         else if (e.winner == me.name){
@@ -208,6 +214,7 @@ io.on("connection",(socket)=>{
             me.points++;
 
             me.wins++;
+            puntuacionJugador.labels(e.name).inc(2);
         }
 
         //Busca el juego por el id y añade al ganador
@@ -277,7 +284,7 @@ app.get('/games', (req, res)=> {
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
-  });
+});
 
 
 // Iniciar el servidor
