@@ -16,6 +16,8 @@ document.getElementById("getID").addEventListener('input', function(e){
         //Dejamos en blanco los campos
         document.getElementById("user").textContent = " "
         document.getElementById("oppName").textContent = " "
+        document.getElementById("whosWon").textContent = " "
+        alert("Enter a ID number")
     }
     //Si es valido emitimos el evento view game a app.js con el id requerido
     else{

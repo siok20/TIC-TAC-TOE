@@ -13,6 +13,12 @@ body {
     align-items: center;
 }
 
+#games{
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
 #main {
     display: flex;
     flex-direction: column;
@@ -24,6 +30,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: rgb(255, 255, 255);
 }
 
 #boardgame {
@@ -88,6 +95,15 @@ img {
     border-radius: 15px;
 }
 
+p{
+    color: #fff;
+    font-size: 3rem;
+}
+
+#notFound{
+    padding: 30px;
+}
+
 #find, #Bplayers, #Bgames {
     font-size: 1.5rem;
     color: black;
@@ -105,7 +121,7 @@ img {
 }
 
 .btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(165, 155, 216, 0.8);
 }
 
 button.enabled {
@@ -127,7 +143,8 @@ button.enabled {
 
 table {
     width: auto;
-    background-color: rgb(32, 183, 93);
+    border: 2px solid rgb(28, 37, 208);
+    background-color: rgb(160, 179, 207);
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 18px;
@@ -136,11 +153,12 @@ table {
 
 th, td {
     padding: 12px 15px;
-    border-bottom: 1px solid rgb(32, 183, 93);
+    border-bottom: 2px solid rgb(22, 83, 144);
+    border-top: 2px solid rgb(22, 83, 144);
 }
 
 th {
-    background-color:rgb(46, 193, 105);
+    background-color: rgb(103, 147, 208);
     color: #000000;
 }
 
@@ -149,6 +167,10 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: #26522e;
+    background-color: rgb(243, 243, 244);
     cursor: pointer;
+}
+
+tr:nth-child(even):hover {
+    background-color:  rgb(103, 147, 208);
 }

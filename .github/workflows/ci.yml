@@ -33,7 +33,7 @@ jobs:
 
     - name: Build and run Docker Compose
       run: |
-        docker compose up --build -d  # Cambiar docker-compose a docker compose
+        docker compose up --build -d 
       working-directory: tic-tac-toe
 
     - name: Install OWASP Dependency-Check

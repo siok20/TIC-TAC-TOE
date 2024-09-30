@@ -289,6 +289,5 @@ app.get('/metrics', async (req, res) => {
 
 // Iniciar el servidor
 server.listen(4000, () => {
-    console.log('Server running on port 4000');
+    console.log('Server running on port 4000');
 });
-
