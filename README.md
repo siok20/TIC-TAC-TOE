@@ -7,11 +7,11 @@ Esta rama se creó con la finalidad de tener preparado un servidor que atenderá
 Se conectan los archivos de la siguiente forma
 
 ```
-index.html <-> game.js <--------
+index.html <-> play.js <--------
                                |
-games.html <-> tool.js <-------|---> app.js
+games.html <-> games.js <------|---> app.js
                                |  
-stats.html <-> toolStats.js <---
+tables.html <-> tables.js <-----
 ```
 -----------------------------------------------------------------------------------------------------------------
 # Inicialización
