@@ -193,6 +193,7 @@ io.on("connection",(socket)=>{
         }
 
         //Emite el evento playing con el objeto necesario
+        console.log(playingArray)
         io.emit("playing",{allPlayers:playingArray})
         
     })
@@ -257,7 +258,7 @@ io.on("connection",(socket)=>{
     
 })
 
-// Ruta para servir el archivo index.html
+// Ruta para servir el archivo play.html
 app.get('/', (req, res) => {        
     // Medir la duración de la solicitud
     const end = histogram.startTimer();
@@ -268,8 +269,8 @@ app.get('/', (req, res) => {
 });
 
 //obtener el listado de varias partidas
-app.get('/stats', (req, res)=> {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'stats.html'))
+app.get('/tables', (req, res)=> {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'tables.html'))
 })
 
 

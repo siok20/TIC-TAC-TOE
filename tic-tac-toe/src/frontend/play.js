@@ -118,11 +118,25 @@ function check(name, sum, foundObject) {
     document.getElementById("btn8").innerText == '' ? b8 = "h" : b8 = document.getElementById("btn8").innerText
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
-    if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
-        socket.emit("Derrota", { name: name })
+    let winner= " - "
 
+    //Con 10 clicks ya la partida queda en empate
+    if (foundObject.sum == 10) {
+        //En caso haya victoria, retornamos el current player a X
+        currentPlayer = "X"
+        //Emitimos el evento juego terminado a app.js
+        //Enviamos el jugador presente, el ganador y el id de la partida
+        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
+        //Emitimos una alerta y recargamos la pagina
+        setTimeout(() => {
+            alert("Empate!!")
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        }, 100)
+    }
     //Combinaciones para victoria
-    if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
+    else if ((b1 == b2 && b2 == b3) || (b4 == b5 && b5 == b6) || (b7 == b8 && b8 == b9) || (b1 == b4 && b4 == b7) || (b2 == b5 && b5 == b8) || (b3 == b6 && b6 == b9) || (b1 == b5 && b5 == b9) || (b3 == b5 && b5 == b7)) {
         //En caso haya victoria, retornamos el current player a X
         currentPlayer = "X"
         //Segun el turno verificamos quien era el ganador
@@ -139,19 +153,5 @@ function check(name, sum, foundObject) {
             }, 2000)
         }, 100)
     }
-    //Con 10 clicks ya la partida queda en empate
-    else if (sum == 10) {
-        //En caso haya victoria, retornamos el current player a X
-        currentPlayer = "X"
-        //Emitimos el evento juego terminado a app.js
-        //Enviamos el jugador presente, el ganador y el id de la partida
-        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
-        //Emitimos una alerta y recargamos la pagina
-        setTimeout(() => {
-            alert("Empate!!")
-            setTimeout(() => {
-                location.reload()
-            }, 2000)
-        }, 100)
-    }
-}}
+    
+}
