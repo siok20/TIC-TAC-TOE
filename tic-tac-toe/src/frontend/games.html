@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/images/icon.png">
+
+</head>
+
+<body id="games">
+
+    <div id="main">
+
+        <h1>Tic-Tac-Toe</h1>
+
+        <div class="name-box">
+            <h2 class="nombre">Escribe el ID :D</h2>
+            <div>
+                <input type="text" placeholder="ID" id="getID" autocomplete="off">
+            </div>
+        </div>
+   
+    
+    <!--<div style="display: flex;position: relative; width: 70vw; justify-content: space-between; padding-bottom: 50px;">
+        <p style="font-size: 1.2rem;" id="enterName">Enter game ID : </p>
+
+        <input type="text" placeholder="ID" id="getID" autocomplete="off">
+    </div>-->
+
+    <div id = "notFound" class="name-box">
+        <p style="font-size: 2.5rem;padding-bottom: 50px;" id="enterName">game not found</p>
+    </div>
+
+
+    <div style="display: flex; width: 95vw; position: relative; justify-content: space-between; " class="name-box" >
+        <div id="gameinfo">
+            <div id="userCont"><span id="user"></span></div>
+            <h1 style="font-size: 50px;"><span>VS</span></h1>
+            <div id="oppNameCont"><span id="oppName"></span></div>
+        </div>
+    </div>
+    <br>
+    <h1 style="font-size: 50px;" id="valueCont">WINNER:<span id="value"></span></h1>
+    <br>
+    <p id="whosWon" style="font-size: 50px;"></p>
+
+</div>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/games.js"></script>
+
+</html>

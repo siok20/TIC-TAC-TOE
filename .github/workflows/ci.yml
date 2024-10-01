@@ -3,41 +3,54 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - feature/console
+      - main
   pull_request:
     branches:
-      - feature/console
-
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: tic-tac-toe
+    - name: Install dependencies
+      run: npm install
+      working-directory: tic-tac-toe
 
-      - name: Run tests
-        run: npm test
-        working-directory: tic-tac-toe
+    - name: Check Docker and Docker Compose versions
+      run: |
+        docker --version
+        docker compose version  
 
-      - name: Build Docker image
-        run: docker build -t tic-tac-toe .
-        working-directory: tic-tac-toe
+    - name: Build and run Docker Compose
+      run: |
+        docker compose up --build -d 
+      working-directory: tic-tac-toe
 
-      - name: Run Docker container
-        run: docker run -d -p 3000:3000 tic-tac-toe
+    - name: Install OWASP Dependency-Check
+      run: |
+        wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.4/dependency-check-10.0.4-release.zip
+        unzip dependency-check-10.0.4-release.zip
+        # Verifica el nombre exacto del directorio descomprimido
+        ls -l  # Esto listará los archivos para que se vea el nombre
+        mv dependency-check-* dependency-check  # Se debe de renombrar el directorio
 
-      - name: Stop and clean Docker
-        run: |
-          docker stop $(docker ps -q) || true
-          docker rm $(docker ps -a -q) || true
-          docker rmi tic-tac-toe || true
+
+    - name: Grant execute permissions for Dependency-Check
+      run: chmod +x dependency-check/bin/dependency-check.sh
+
+    - name: Run OWASP Dependency-Check
+      run: |
+        ./dependency-check/bin/dependency-check.sh --project "Tic Tac Toe" --scan ./tic-tac-toe/src
+
+    - name: Stop and clean Docker Compose
+      run: |
+        docker compose down  
+      working-directory: tic-tac-toe

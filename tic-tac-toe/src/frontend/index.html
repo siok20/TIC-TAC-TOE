@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/icon.png">
+    
+
+</head>
+
+<body>
+    <div id="main">
+        <h1>Tic-Tac-Toe</h1>
+        <div class="name-box">
+            <h2 class="nombre">Escribe tu nombre :D</h2>
+            <div>
+                <input type="text" placeholder="Nombre" id="name" autocomplete="off">
+            </div>
+            <button id="find">Buscar jugador</button>
+            <img id="loading" src="loading.gif" alt="">
+        </div>
+        
+    </div>
+    
+
+    <div id="boardgame">
+        <div id="gameinfo">
+            <div id="userCont">Tú: <span id="user"></span></div>
+            <div id="oppNameCont">Oponente: <span id="oppName"></span></div>
+        </div>
+        <div id="valueCont">Estás jugando como:  <span id="value"></span></div>
+        <div id="whosTurn">Turno de X</div>
+        <div id="cont">
+            <button id="btn1" class="btn"></button>
+            <button id="btn2" class="btn"></button>
+            <button id="btn3" class="btn"></button>
+            <button id="btn4" class="btn"></button>
+            <button id="btn5" class="btn"></button>
+            <button id="btn6" class="btn"></button>
+            <button id="btn7" class="btn"></button>
+            <button id="btn8" class="btn"></button>
+            <button id="btn9" class="btn"></button>
+        </div>
+    </div>
+
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/play.js"></script>
+
+</html>
