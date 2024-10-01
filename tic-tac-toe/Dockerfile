@@ -2,7 +2,7 @@ FROM node:20
 
 WORKDIR /app
 
-COPY tic-tac-toe/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["node", "tic-tac-toe/src/app.js"]
+CMD ["node", "src/app.js"]
