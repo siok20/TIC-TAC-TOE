@@ -1,8 +1,8 @@
 FROM node:20
 
-WORKDIR /app
+WORKDIR /app/tic-tac-toe
 
-COPY package*.json ./
+COPY tic-tac-toe/package*.json ./
 
 RUN npm install
 
