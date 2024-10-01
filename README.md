@@ -474,7 +474,7 @@ partidasActivas.inc();  // Incrementa cuando se inicia una partida
 partidasActivas.dec();  // Decrementa cuando una partida termina
 
 ```
-![](assets/activegame.png)
+![](assets/tictactoeactivegames.png)
 
 ## Puntuacion de los jugadores
 La gráfica refleja la métrica de puntuación de los jugadores en el juego Tic-Tac-Toe, mostrando cómo sus puntuaciones cambia a medida que avanza el juego
@@ -483,12 +483,12 @@ La gráfica refleja la métrica de puntuación de los jugadores en el juego Tic-
 puntuacionJugador.labels(e.name).inc();  // Incrementa la puntuación del jugador 
 ```
 
-![](assets/scoreplayer.png)
+![](assets/tictactoeplayerscore.png)
 
 ## Latencia de API
 La latencia de la API se evalua mediante un histograma de Prometheus, el cual monitorea y registra la duración de cada solicitud HTTP. Esta métrica proporciona información valiosa sobre el tiempo de respuesta de la API, permitiendo realizar un análisis detallado del rendimiento de la aplicación.
 
-![](assets/nodehttptotalduration.png)
+![](assets/nodehttptotalduratio.png)
 
 
 
