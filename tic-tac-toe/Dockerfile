@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /app/tic-tac-toe
+WORKDIR /app
 
 COPY tic-tac-toe/package*.json ./
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["node", "src/app.js"]
+CMD ["node", "tic-tac-toe/src/app.js"]
