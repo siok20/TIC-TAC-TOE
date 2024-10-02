@@ -44,6 +44,29 @@ Verificación de la ejecución (opcional):
 - **Puerto donde se ejecuta Grafana**
 ![](assets/localhost3000.png)
 
+## Funcionalidades del juego y accesos
+
+El sistema ofrece las siguientes funcionalidades adicionales que nos permite monitorear nuestro el estado de nuestro juego y obtener información sobre los jugadores y las partidas activas o finalizadas:
+
+1. **Acceso principal al juego**:  
+   Jugar al Tic-Tac-Toe en tiempo real entre dos usuarios:  
+   [http://localhost:4000](http://localhost:4000)
+
+2. **Tabla de jugadores**:  
+   Muestra una tabla que contiene información sobre los jugadores, incluyendo el número de victorias y puntos acumulados, junto con detalles de las partidas: 
+   [http://localhost:4000/tables](http://localhost:4000/tables)
+   - Tabla de los jugadores
+   ![](assets/table1.png)
+   - Tabla de las partidas
+   ![](assets/table2.png)
+
+3. **Búsqueda de partidas por ID**:  
+   Permite buscar una partida específica ingresando su ID, y muestra información sobre quiénes jugaron y quién ganó:
+   [http://localhost:4000/games](http://localhost:4000/games)
+   
+   ![](assets/games1.png)
+   ![](assets/games2.png)
+
 
 ## FEATURE/ API-REST
 ESTA RAMA TIENE LAS ÚLTIMAS ACTUALIZACIONES
@@ -534,6 +557,3 @@ La latencia de la API se evalua mediante un histograma de Prometheus, el cual mo
 
 ![](assets/nodehttptotalduratio.png)
 
-
-
->>>>>>> feature/api-rest
