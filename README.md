@@ -1,6 +1,49 @@
 # PC1-Grupo11
 
-## Tic-Tac-Toe en línea
+# WELCOME TO TIC-TAC-TOE PLAY
+
+## Instrucciones para ejecutar el juego
+
+1. Primero debe de clonar el proyecto con el siguiente comando:
+    ```bash
+    git clone https://github.com/Strangertame74/pc1-grupo11.git
+    ```
+2. Luego, diríjase a la carpeta principal del proyecto:
+
+    ```bash
+    cd tic/tac/toe
+    ```
+
+3.  Una vez ahí Use el siguiente comando para construir y ejecutar el proyecto en un contenedor Docker:
+
+    ```yml
+    docker-compose up -d
+    ```
+
+4. Una vez que los contenedores estén en ejecución, puede acceder al juego visitando en su navegador.  
+
+    Aplicación: http://localhost:4000  
+
+    Prometheus: http://localhost:9090
+
+    Grafana: http://localhost:3000
+
+Verificación de la ejecución (opcional):
+
+5. Una vez ejecutado el comando deberías de ver que los contenedores para la aplicación, Prometheus y Grafana están ejecutándose en sus respectivos puertos. 
+
+- **Ejecución de docker-compose**
+![](assets/docker-compose.png)
+
+- **Puerto donde se ejecuta el juego**
+![](assets/localhost4000.png)
+
+- **Puerto donde se ejecuta Prometheus**
+![](assets/localhost9090.png)
+
+- **Puerto donde se ejecuta Grafana**
+![](assets/localhost3000.png)
+
 
 ## FEATURE/ API-REST
 ESTA RAMA TIENE LAS ÚLTIMAS ACTUALIZACIONES
@@ -417,6 +460,7 @@ function check(name, sum, foundObject) {
     }
 }}
 ```
+
 
 ## feature/configurar-prometheus
 
