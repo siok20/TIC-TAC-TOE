@@ -143,10 +143,12 @@ io.on("connection",(socket)=>{
                 }
                 
                 //Se añade un id a cada juego, los dos players, el campo de ganador y la suma de movimientos realizados
+                //board es el estado del tablero de la partida
                 let obj={
                     id:gameId,
                     p1:p1obj,
                     p2:p2obj,
+                    board: "         ",
                     winner:"-",
                     sum:1
                 }
@@ -160,7 +162,7 @@ io.on("connection",(socket)=>{
                 arr.splice(0,2)
                 
                 //Retornamos el evento find solo a los jugadores dentro del room
-                io.to(gameId).emit("find", { allPlayers: [obj], id: gameId })
+                io.to(gameId).emit("find", { obj, id: gameId })
 
                 //Cambiamos el id para los siguientes juegos
                 gameId++
@@ -172,30 +174,39 @@ io.on("connection",(socket)=>{
     
     //Evento de juego
     socket.on("playing",(e)=>{
+
+        //Busca al juego por su id y luego verifica si el emisor del evento es player2
+        let objToChange=playingArray.find(obj=>obj.id==e.idGame)
+        
         //Toca jugar al X
-        if(e.value=="X"){
-            //Busca al juego por su id y luego verifica si el emisor del evento es player1
-            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p1.name===e.name)
-            
+        if(e.value=="X"){          
             //añade el movimiento a player1 y suma 1 movimiento a la partida
-            objToChange.p1.move=e.id
+            objToChange.p1.move=e.move
             objToChange.sum++
 
         }
         //Toca jugar al O
-        else if(e.value=="O"){
-            //Busca al juego por su id y luego verifica si el emisor del evento es player2
-            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p2.name===e.name)
-            
+        else if(e.value=="O"){            
             //añade el movimiento a player2 y suma 1 movimiento a la partida
-            objToChange.p2.move=e.id  
+            objToChange.p2.move=e.move
             objToChange.sum++
         }
 
+        //Segun el boton presionado reemplazamos en su ubicacion
+        //correspondiente en el board segun el valor que toque
+        let indice = e.move.charAt(e.move.length - 1)
+
+        objToChange.board = objToChange.board.substring(0,indice-1) + e.value + objToChange.board.substring(indice,objToChange.board.length) 
+
         //Emite el evento playing con el objeto necesario
         console.log(playingArray)
-        io.emit("playing",{allPlayers:playingArray})
+        io.emit("playing",{objToChange})
         
+    })
+
+    socket.on("check", (e)=>{
+        let foundObject = playingArray.find(obj => obj.id === e.id)
+
     })
     
     //evento de finalizacion de partida
