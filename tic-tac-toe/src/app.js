@@ -164,6 +164,8 @@ io.on("connection",(socket)=>{
                 //Retornamos el evento find solo a los jugadores dentro del room
                 io.to(gameId).emit("find", { obj, id: gameId })
 
+                console.log("Emitiendo evento find con:", { obj, id: gameId });
+
                 //Cambiamos el id para los siguientes juegos
                 gameId++
             }
