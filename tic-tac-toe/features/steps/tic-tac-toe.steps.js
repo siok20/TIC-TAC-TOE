@@ -17,16 +17,7 @@ Given('otro jugador con el nombre {string}', function (nombreJugador) {
 });
 
 // Paso para cuando ambos jugadores se unen al juego
-/*
-When('ambos jugadores se unan al juego', function () {
-    return new Promise((resolve) => {
-        socket.on('find', (data) => {
-            response = data; // Asignar la respuesta
-            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
-        });
-    });
-});
-*/
+
 When('ambos jugadores se unan al juego', function () {
     socket.on('find', (data) => {
         response = data; // Asignar la respuesta
@@ -34,13 +25,7 @@ When('ambos jugadores se unan al juego', function () {
 });
 
 // Paso para verificar que se ha creado una nueva partida
-/*
-Then('debería crearse una nueva partida con el tablero vacío', function () {
-    expect(response).ot.exist;
-    expect(response.obj.board).to.equal('         '); // Nos debe devolver un tablero vacío
-    expect(response.id).to.exist; // Verifica que se creo un id
-});  
-*/
+
 Then('debería crearse una nueva partida con el tablero vacío', function () {
     socket.on('find', (data) => {
     response = data; // Asignar la respuesta
@@ -51,7 +36,6 @@ Then('debería crearse una nueva partida con el tablero vacío', function () {
 });  
 
 // Paso para iniciar el juego entre dos jugadores
-
 Given('un jugador llamado {string} comienza a jugar con {string}', function (jugador1, jugador2) {
     // Emitir el evento para encontrar a ambos jugadores
     socket.emit('find', { name: jugador1 });
@@ -63,30 +47,27 @@ Given('un jugador llamado {string} comienza a jugar con {string}', function (jug
 });
   
 // Paso para realizar un movimiento
-/*
-When('{string} selecciona {string} en la posición {int}', function (jugador, marca, posicion) {
-    // Emitir el evento de juego con la información del movimiento
 
-    socket.emit('playing', { idGame: response.id, value: marca, move: `pos${posicion}` });
-});
-*/
 When('{string} selecciona {string} en la posición {int}', function (jugador, marca, posicion) {
     return new Promise((resolve) => {
-        // Escuchar el evento 'find' para asegurarte de que tienes los datos correctos
-        socket.on('find', (data) => {
-            response = data; // Guardar la respuesta para usarla luego
-            resolve(); // Resuelve la promesa para continuar con la prueba
-            socket.emit('playing', { idGame: response.id, value: marca, move: `pos${posicion}` });
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta
+            socket.emit('playing', { idGame: response.obj.idGame, value: marca, move: `pos${posicion}` });
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
         });
+        resolve();  // Se debe resolver la promesa para que cierre correctamente el proceso y pueda continuar
     });
 });
 
-
 // Paso para verificar que el tablero muestra el movimiento
 Then('el tablero debería mostrar {string} en la posición {int}', function (marca, posicion) {
-    socket.on('playing', (data) => {
-      const boardPosition = data.objToChange.board.charAt(posicion - 1);
-      expect(boardPosition).to.equal(marca); // Verificar que el movimiento esté en la posición correcta
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            const boardPosition = data.objToChange.board.charAt(posicion - 1);
+            expect(boardPosition).to.equal(marca); // Verificar que el movimiento esté en la posición correcta
+            resolve();
+        });
+        resolve();  // Se debe resolver la promesa para que cierre correctamente el proceso y pueda continuar
     });
 }); 
 
@@ -103,21 +84,7 @@ Then('debería ser el turno de {string}', async function (nombreSiguienteJugador
             expect(expectedPlayer).to.equal(nombreSiguienteJugador);
             resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
         });
+        resolve();
     });
 });
 
-/*
-When('ambos jugadores se unan al juego', function () {
-    return new Promise((resolve) => {
-        socket.on('playing', (data) => {
-            response = data; // Asignar la respuesta
-            const objToChange = data.objToChange;
-            const isPlayer1Turn = objToChange.sum % 2 !== 0; // Si la suma es impar, es el turno de X
-            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
-
-            expect(expectedPlayer).to.equal(nombreSiguienteJugador);
-            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
-        });
-    });
-});
-*/
