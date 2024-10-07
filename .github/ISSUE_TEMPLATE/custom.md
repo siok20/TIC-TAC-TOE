@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Como un** [tipo de usuario]
+**Como** [tipo de usuario]
 **Quiero** [funcionalidad]
 **Para** [beneficio]
 
