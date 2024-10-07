@@ -200,12 +200,39 @@ io.on("connection",(socket)=>{
 
         //Emite el evento playing con el objeto necesario
         console.log(playingArray)
-        io.emit("playing",{objToChange})
+        io.to(objToChange.id).emit("playing",{objToChange})
         
     })
 
     socket.on("check", (e)=>{
         let foundObject = playingArray.find(obj => obj.id === e.id)
+
+        let board = foundObject.board.split("")
+        let sum = foundObject.sum
+
+        console.log(board)
+
+        if(sum == 10){
+            socket.emit("gameOver", {winner: " - "})
+        }
+        else if((board[0] == board[1] && board[1] == board[2] && " " != board[2] ) || 
+                (board[3] == board[4] && board[4] == board[5] && " " != board[3]) || 
+                (board[6] == board[7] && board[7] == board[8] && " " != board[6]) || 
+                (board[0] == board[3] && board[3] == board[6] && " " != board[0]) || 
+                (board[1] == board[4] && board[4] == board[7] && " " != board[1]) || 
+                (board[2] == board[5] && board[5] == board[8] && " " != board[2]) || 
+                (board[0] == board[4] && board[4] == board[8] && " " != board[0]) || 
+                (board[2] == board[4] && board[4] == board[6] && " " != board[2])
+        ){
+            if(sum % 2 == 0){
+                socket.emit("gameOver", {winner: foundObject.p1})
+                socket.leave(e.id);
+            }
+            else{
+                socket.emit("gameOver", {winner: foundObject.p2})
+                socket.leave(e.id);
+            }
+        }
 
     })
     
@@ -234,8 +261,6 @@ io.on("connection",(socket)=>{
        
         console.log(playingArray)
         console.log(players)
-
-       
 
 
     })
@@ -301,5 +326,5 @@ app.get('/metrics', async (req, res) => {
 
 // Iniciar el servidor
 server.listen(4000, () => {
-    console.log('Server running on port 4000');
+    console.log('Server running on port 4000');
 });

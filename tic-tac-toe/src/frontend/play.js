@@ -100,8 +100,37 @@ socket.on("playing", (e) => {
     }
 
     //Checekamos el estado de la partida
-    
-    check(name, foundObject)
+    socket.emit("check", {id: foundObject.id})
+    //check(name, foundObject)
+})
+
+socket.on("gameOver", (e)=>{
+    currentPlayer = "X"
+
+    if(e.winner == " - "){
+
+        
+        socket.emit("gameOver", { name: name, winner: " - ", id:currentId })
+
+        //Emitimos una alerta y recargamos la pagina
+        setTimeout(() => {
+            alert("Empate!!")
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        }, 100)
+    }else{
+        let obj = e.winner
+
+        socket.emit("gameOver", { name: name, winner: obj.name, id:currentId })
+        
+        setTimeout(() => {
+            alert(`Victoria de ${obj.name}`)
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        }, 100)
+    }
 })
 
 //Checkea el estado de la partida
@@ -119,10 +148,11 @@ function check(name, foundObject) {
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
     let sum = foundObject.sum
+    let winner
 
     //Con 10 clicks ya la partida queda en empate
     if (sum == 10) {
-        //En caso haya victoria, retornamos el current player a X
+        //En caso haya empate, retornamos el current player a X
         currentPlayer = "X"
         //Emitimos el evento juego terminado a app.js
         //Enviamos el jugador presente, el ganador y el id de la partida
