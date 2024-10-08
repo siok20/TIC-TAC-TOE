@@ -225,12 +225,12 @@ io.on("connection",(socket)=>{
                 (board[2] == board[4] && board[4] == board[6] && " " != board[2])
         ){
             if(sum % 2 == 0){
-                socket.emit("gameOver", {winner: foundObject.p1})
-                socket.leave(e.id);
+                io.to(e.id).emit("gameOver", {winner: foundObject.p1})
+                io.socketsLeave(e.id);
             }
             else{
-                socket.emit("gameOver", {winner: foundObject.p2})
-                socket.leave(e.id);
+                io.to(e.id).emit("gameOver", {winner: foundObject.p2})
+                io.socketsLeave(e.id);
             }
         }
 
@@ -323,8 +323,13 @@ app.get('/metrics', async (req, res) => {
     res.end(await register.metrics());
 });
 
-
 // Iniciar el servidor
-server.listen(4000, () => {
-    console.log('Server running on port 4000');
-});
+if (require.main === module) {
+    const port = process.env.PORT || 4000; 
+    server.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+
+module.exports = { app, server };
+

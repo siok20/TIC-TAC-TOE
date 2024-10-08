@@ -34,6 +34,8 @@ socket.on("find", (e) => {
     e internanemente cambia el currentId al de la partida
     */
 
+    console.log(socket)
+
     currentId = e.id;
 
     if (name != '') {
