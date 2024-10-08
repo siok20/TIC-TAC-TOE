@@ -1,0 +1,1440 @@
+[
+  {
+    "description": "    Como jugador \n    quiero recibir mensajes de error \n    para cuando se realice movimientos inválidos",
+    "elements": [
+      {
+        "description": "",
+        "id": "manejo-de-errores;no-es-el-turno-del-jugador",
+        "keyword": "Esquema del escenario",
+        "line": 18,
+        "name": "No es el turno del jugador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6197378
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 983334
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 583307
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 13,
+            "name": "\"Mario\" intenta seleccionar \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1539496
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 14,
+            "name": "debería recibir un mensaje de error \"No es tu turno\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1394187
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "manejo-de-errores;no-es-el-turno-del-jugador",
+        "keyword": "Esquema del escenario",
+        "line": 19,
+        "name": "No es el turno del jugador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Juan\" y un jugador llamado \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3483786
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Juan\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 742615
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 607170
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 13,
+            "name": "\"Pedro\" intenta seleccionar \"X\" en la posición 4",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1112443
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 14,
+            "name": "debería recibir un mensaje de error \"No es tu turno\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1018197
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "manejo-de-errores;movimiento-inválido",
+        "keyword": "Esquema del escenario",
+        "line": 28,
+        "name": "Movimiento inválido",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 22,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3412849
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 23,
+            "name": "\"Ana\" selecciona \"X\" en la posición 10",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1148210
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 24,
+            "name": "debería recibir un mensaje de error \"Movimiento inválido\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 538709
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "manejo-de-errores;movimiento-inválido",
+        "keyword": "Esquema del escenario",
+        "line": 29,
+        "name": "Movimiento inválido",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 22,
+            "name": "un jugador llamado \"Juan\" y un jugador llamado \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2186365
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 23,
+            "name": "\"Juan\" selecciona \"X\" en la posición 0",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 392058
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 24,
+            "name": "debería recibir un mensaje de error \"Movimiento inválido\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 261858
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "manejo-de-errores",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Manejo de Errores",
+    "tags": [],
+    "uri": "features/error_handling.feature"
+  },
+  {
+    "description": "    Como jugador\n    quiero que el juego determine un ganador o empate\n    para finalizar la partida de manera justa",
+    "elements": [
+      {
+        "description": "",
+        "id": "condiciones-de-victoria-y-empate;un-jugador-gana-la-partida",
+        "keyword": "Esquema del escenario",
+        "line": 21,
+        "name": "Un jugador gana la partida",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1667563
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 304765
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 435513
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "\"Ana\" selecciona \"X\" en la posición 4",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 419275
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 14,
+            "name": "\"Mario\" selecciona \"O\" en la posición 5",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 807071
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 15,
+            "name": "\"Ana\" selecciona \"X\" en la posición 7",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 466288
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 16,
+            "name": "\"Ana\" debería ser el ganador",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:116"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 912550
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 17,
+            "name": "el juego debería estar terminado",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:132"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1232690
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "condiciones-de-victoria-y-empate;un-jugador-gana-la-partida",
+        "keyword": "Esquema del escenario",
+        "line": 22,
+        "name": "Un jugador gana la partida",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Juan\" y un jugador llamado \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3323043
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Juan\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 910526
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 492240
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "\"Juan\" selecciona \"X\" en la posición 5",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 470504
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 14,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 455862
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 15,
+            "name": "\"Juan\" selecciona \"X\" en la posición 6",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 403822
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 16,
+            "name": "\"Juan\" debería ser el ganador",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:116"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 417403
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 17,
+            "name": "el juego debería estar terminado",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:132"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 353715
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "condiciones-de-victoria-y-empate;el-juego-termina-en-empate",
+        "keyword": "Esquema del escenario",
+        "line": 40,
+        "name": "El juego termina en empate",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 25,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2506523
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 26,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 465396
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 27,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 439027
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 28,
+            "name": "\"Ana\" selecciona \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 372664
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 29,
+            "name": "\"Mario\" selecciona \"O\" en la posición 7",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 392444
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 30,
+            "name": "\"Ana\" selecciona \"X\" en la posición 5",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 428837
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 31,
+            "name": "\"Mario\" selecciona \"O\" en la posición 6",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 408996
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 32,
+            "name": "\"Ana\" selecciona \"X\" en la posición 4",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 529748
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 33,
+            "name": "\"Mario\" selecciona \"O\" en la posición 9",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 402584
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 34,
+            "name": "\"Ana\" selecciona \"X\" en la posición 8",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 404507
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 35,
+            "name": "el juego debería estar terminado",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:132"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 482517
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 36,
+            "name": "el resultado debería ser empate",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:154"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 812090
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "condiciones-de-victoria-y-empate",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Condiciones de Victoria y Empate",
+    "tags": [],
+    "uri": "features/game_results.feature"
+  },
+  {
+    "description": "    Como usuario\n    quiero iniciar una partida con otro jugador\n    para poder comenzar a jugar al Tic-Tac-Toe",
+    "elements": [
+      {
+        "description": "",
+        "id": "gestión-de-la-partida;iniciar-una-partida",
+        "keyword": "Escenario",
+        "line": 9,
+        "name": "Iniciar una partida",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador con el nombre \"Ana\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 428498
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 11,
+            "name": "otro jugador con el nombre \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 611902
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 12,
+            "name": "ambos jugadores se unan al juego",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 216533
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 13,
+            "name": "debería crearse una nueva partida con el tablero vacío",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 206934
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "gestión-de-la-partida",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Gestión de la Partida",
+    "tags": [],
+    "uri": "features/game_start.feature"
+  },
+  {
+    "description": "    Como jugador\n    quiero realizar movimientos válidos en el tablero\n    para poder jugar al Tic-Tac-Toe correctamente",
+    "elements": [
+      {
+        "description": "",
+        "id": "realización-de-movimientos;un-jugador-hace-un-movimiento",
+        "keyword": "Escenario",
+        "line": 9,
+        "name": "Un jugador hace un movimiento",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Ana\" comienza a jugar con \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 527933
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 290075
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 12,
+            "name": "el tablero debería mostrar \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:73"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 583507
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "debería ser el turno de \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 455226
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "realización-de-movimientos;cambiar-de-turno-entre-los-jugadores",
+        "keyword": "Escenario",
+        "line": 15,
+        "name": "Cambiar de turno entre los jugadores",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 16,
+            "name": "un jugador llamado \"Ana\" comienza a jugar con \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 302180
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 17,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 234176
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 18,
+            "name": "debería ser el turno de \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 204624
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 19,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 192965
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 20,
+            "name": "debería ser el turno de \"Ana\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 173216
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "realización-de-movimientos;cambiar-de-turno-entre-los-jugadores",
+        "keyword": "Esquema del escenario",
+        "line": 31,
+        "name": "Cambiar de turno entre los jugadores",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 23,
+            "name": "un jugador llamado \"Ana\" comienza a jugar con \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 166515
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 24,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 220104
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 25,
+            "name": "debería ser el turno de \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 296516
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 26,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 294123
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 27,
+            "name": "debería ser el turno de \"Ana\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 303389
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "realización-de-movimientos;cambiar-de-turno-entre-los-jugadores",
+        "keyword": "Esquema del escenario",
+        "line": 32,
+        "name": "Cambiar de turno entre los jugadores",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 23,
+            "name": "un jugador llamado \"Juan\" comienza a jugar con \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:48"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 239420
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 24,
+            "name": "\"Juan\" selecciona \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 309243
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 25,
+            "name": "debería ser el turno de \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 334738
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 26,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 4",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 609085
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 27,
+            "name": "debería ser el turno de \"Juan\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 425724
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "realización-de-movimientos;no-es-el-turno-del-jugador",
+        "keyword": "Esquema del escenario",
+        "line": 43,
+        "name": "No es el turno del jugador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 35,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4487044
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 36,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 402070
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 37,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 373602
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 38,
+            "name": "\"Mario\" intenta seleccionar \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 380711
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 39,
+            "name": "debería recibir un mensaje de error \"No es tu turno\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 291305
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "realización-de-movimientos;no-es-el-turno-del-jugador",
+        "keyword": "Esquema del escenario",
+        "line": 44,
+        "name": "No es el turno del jugador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 35,
+            "name": "un jugador llamado \"Juan\" y un jugador llamado \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3326816
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 36,
+            "name": "\"Juan\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 358789
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 37,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 355023
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 38,
+            "name": "\"Pedro\" intenta seleccionar \"X\" en la posición 4",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 352290
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 39,
+            "name": "debería recibir un mensaje de error \"No es tu turno\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:188"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 310546
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "realización-de-movimientos",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Realización de Movimientos",
+    "tags": [],
+    "uri": "features/moves_and_turns.feature"
+  },
+  {
+    "description": "    Como jugador\n    quiero validar que un jugador no sea declarado ganador \n    para cuando no se ha cumplido la condición de victoria",
+    "elements": [
+      {
+        "description": "",
+        "id": "validación-de-no-ganador;un-jugador-no-debería-ser-el-ganador",
+        "keyword": "Escenario",
+        "line": 9,
+        "name": "Un jugador no debería ser el ganador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 10,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2512099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 11,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 353238
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 12,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 363526
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 13,
+            "name": "\"Ana\" selecciona \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 298073
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 14,
+            "name": "\"Mario\" no debería ser el ganador",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 752950
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "validación-de-no-ganador;un-jugador-no-debería-ser-el-ganador",
+        "keyword": "Esquema del escenario",
+        "line": 25,
+        "name": "Un jugador no debería ser el ganador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 17,
+            "name": "un jugador llamado \"Ana\" y un jugador llamado \"Mario\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2373162
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 18,
+            "name": "\"Ana\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 215352
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 19,
+            "name": "\"Mario\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 190449
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 20,
+            "name": "\"Ana\" selecciona \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 176772
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 21,
+            "name": "\"Mario\" no debería ser el ganador",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 193787
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "validación-de-no-ganador;un-jugador-no-debería-ser-el-ganador",
+        "keyword": "Esquema del escenario",
+        "line": 26,
+        "name": "Un jugador no debería ser el ganador",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Dado ",
+            "line": 17,
+            "name": "un jugador llamado \"Juan\" y un jugador llamado \"Pedro\"",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:102"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1945332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Cuando ",
+            "line": 18,
+            "name": "\"Juan\" selecciona \"X\" en la posición 1",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 390983
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 19,
+            "name": "\"Pedro\" selecciona \"O\" en la posición 2",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 345953
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Y ",
+            "line": 20,
+            "name": "\"Juan\" selecciona \"X\" en la posición 3",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:61"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 334424
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Entonces ",
+            "line": 21,
+            "name": "\"Pedro\" no debería ser el ganador",
+            "match": {
+              "location": "features/steps/tic-tac-toe.steps.js:205"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 207588
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "validación-de-no-ganador",
+    "line": 3,
+    "keyword": "Característica",
+    "name": "Validación de No Ganador",
+    "tags": [],
+    "uri": "features/no_validation_winner.feature"
+  }
+]

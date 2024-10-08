@@ -1,4 +1,4 @@
-const {Given, When, Then, After} = require('@cucumber/cucumber');
+const {Given, When, Then, BeforeAll, AfterAll} = require('@cucumber/cucumber');
 const {expect} = require('chai');
 const io = require('socket.io-client');
 
@@ -6,9 +6,15 @@ let socket;
 let response;
 let currentId;
 
+BeforeAll(() => {
+    if (!socket) {
+        socket = io.connect('http://localhost:4000');
+    }
+});
+
 // Paso para el jugador con el nombre "Ana"
 Given('un jugador con el nombre {string}', function (nombreJugador) {
-  socket = io.connect('http://localhost:4000'); // Conectar al servidor de Socket.IO
+  //socket = io.connect('http://localhost:4000'); // Conectar al servidor de Socket.IO
   socket.emit('find', {name: nombreJugador});
 });
 
@@ -22,6 +28,7 @@ Given('otro jugador con el nombre {string}', function (nombreJugador) {
 When('ambos jugadores se unan al juego', function () {
     socket.on('find', (data) => {
         response = data; // Asignar la respuesta
+        resolve();
     });
 });
 
@@ -33,7 +40,8 @@ Then('debería crearse una nueva partida con el tablero vacío', function () {
     expect(response).to.exist;
     expect(response.obj.board).to.equal('         '); // Nos debe devolver un tablero vacío
     expect(response.id).to.exist; // Verifica que se creo un id
-});
+    resolve();
+    });
 });  
 
 // Paso para iniciar el juego entre dos jugadores
@@ -100,6 +108,7 @@ Given('un jugador llamado {string} y un jugador llamado {string}', async functio
     socket.on('find', (data) => {
       response = data; // Guardar la respuesta para usarlo luego
       currentId = data.id;
+      resolve();
    });
 })
 
@@ -209,7 +218,7 @@ Then('{string} no debería ser el ganador', async function (nombreGanador) {
 })
 
 // Hook para cerrar el servidor al finalizar las pruebas, no olvidar importar After del modulo de cucumber
-After(async () => {
+AfterAll(() => {
     if (socket) {
       socket.disconnect(); // Cerrar la conexión del socket
     }
