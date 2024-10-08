@@ -248,6 +248,7 @@ io.on("connection",(socket)=>{
         if(e.winner == " - "){
             me.points++
             puntuacionJugador.labels(e.name).inc();
+            console.log(`Empate! ${e.name} ahora tiene ${me.points} puntos.`);
         }
         //Si ganas te sumas 2 puntos y una victoria
         else if (e.winner == me.name){
@@ -256,15 +257,15 @@ io.on("connection",(socket)=>{
 
             me.wins++;
             puntuacionJugador.labels(e.name).inc(2);
+            console.log(`${e.winner} gana! Ahora tiene ${me.points} puntos y ${me.wins} victorias.`);
         }
 
         //Busca el juego por el id y añade al ganador
         playingArray.find(obj => obj.id == e.id).winner = e.winner
        
         console.log(playingArray)
-        console.log(players)
-
-
+        console.log("Datos de game over", {e})
+        console.log("Array de jugadores", {players})
     })
 
     //Acceder a un juego por su id

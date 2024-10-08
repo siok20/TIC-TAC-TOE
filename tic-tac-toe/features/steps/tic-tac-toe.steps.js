@@ -4,6 +4,7 @@ const io = require('socket.io-client');
 
 let socket;
 let response;
+let currentId;
 
 // Paso para el jugador con el nombre "Ana"
 Given('un jugador con el nombre {string}', function (nombreJugador) {
@@ -29,7 +30,7 @@ When('ambos jugadores se unan al juego', function () {
 Then('debería crearse una nueva partida con el tablero vacío', function () {
     socket.on('find', (data) => {
     response = data; // Asignar la respuesta
-    expect(response).ot.exist;
+    expect(response).to.exist;
     expect(response.obj.board).to.equal('         '); // Nos debe devolver un tablero vacío
     expect(response.id).to.exist; // Verifica que se creo un id
     });
@@ -43,6 +44,7 @@ Given('un jugador llamado {string} comienza a jugar con {string}', function (jug
     
     socket.on('find', (data) => {
       response = data; // Guardar la respuesta para usarlo luego
+      currentId = data.id;
    });
 });
   
@@ -88,3 +90,39 @@ Then('debería ser el turno de {string}', async function (nombreSiguienteJugador
     });
 });
 
+// Paso para verificar si hay un ganador
+Then('{string} debería ser el ganador', async function (nombreGanador) {
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta
+            const objToChange = data.objToChange;
+            const isPlayer1Turn = objToChange.sum % 2 === 1;
+            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
+
+            expect(expectedPlayer).to.equal(nombreGanador);
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
+        });
+        resolve();
+    });
+})
+
+// Verificamos que el juego termine
+Then('el juego debería estar terminado', async function () {
+    return new Promise((resolve) => {
+        socket.on('gameOver', (data) => {
+            expect(data).to.be.an('object'); // Verifica que es un objeto
+
+            // Ahora verifica el ganador
+            expect(data.winner).to.exist;
+            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido
+
+            // Verifica el estado del juego
+            const game = playingArray.find(obj => obj.id === data.id);
+            expect(game).to.exist; // Verifica que el juego exista
+            expect(game.winner).to.equal(data.winner); // Verifica que el ganador coincida
+
+            resolve(); // Resuelve la promesa
+        });
+        resolve();
+    });
+});
