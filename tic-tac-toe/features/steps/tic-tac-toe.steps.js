@@ -1,4 +1,4 @@
-const {Given, When, Then} = require('@cucumber/cucumber');
+const {Given, When, Then, After} = require('@cucumber/cucumber');
 const {expect} = require('chai');
 const io = require('socket.io-client');
 
@@ -75,12 +75,12 @@ Then('el tablero debería mostrar {string} en la posición {int}', function (mar
 
 // Paso para verificar que es el turno del otro jugador
 Then('debería ser el turno de {string}', async function (nombreSiguienteJugador) {
-    // Usar un promise para manejar la asincronía
+    // Se necesita usar una promesa para manejar la asincronía
     return new Promise((resolve) => {
         socket.on('playing', (data) => {
             response = data; // Asignar la respuesta
             const objToChange = data.objToChange;
-            const isPlayer1Turn = objToChange.sum % 2 !== 0; // Si la suma es impar, es el turno de X
+            const isPlayer1Turn = objToChange.sum % 2 !== 0; // Si la suma es impar entonces es el turno de X
             const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
             
             expect(expectedPlayer).to.equal(nombreSiguienteJugador);
@@ -94,8 +94,8 @@ Then('debería ser el turno de {string}', async function (nombreSiguienteJugador
 Given('un jugador llamado {string} y un jugador llamado {string}', async function (jugador1, jugador2) {
     socket = io.connect('http://localhost:4000');
     // Emitir el evento para encontrar a ambos jugadores
-    socket.emit('find', { name: jugador1 });
-    socket.emit('find', { name: jugador2 });
+    socket.emit('find', {name: jugador1});
+    socket.emit('find', {name: jugador2});
     
     socket.on('find', (data) => {
       response = data; // Guardar la respuesta para usarlo luego
@@ -107,7 +107,7 @@ Given('un jugador llamado {string} y un jugador llamado {string}', async functio
 Then('{string} debería ser el ganador', async function (nombreGanador) {
     return new Promise((resolve) => {
         socket.on('playing', (data) => {
-            response = data; // Asignar la respuesta
+            response = data; // Asignar la respuesta para luego ser usada
             const objToChange = data.objToChange;
             const isPlayer1Turn = objToChange.sum % 2 === 1;
             const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
@@ -141,6 +141,7 @@ Then('el juego debería estar terminado', async function () {
 });
 
 
+// Paso que verifica el empate en una partida 
 Then('el resultado debería ser empate', async function () {
     return new Promise((resolve) => {
         socket.on('gameOver', (data) => {
@@ -148,7 +149,7 @@ Then('el resultado debería ser empate', async function () {
 
             // Ahora verifica el ganador
             expect(data.winner).to.exist;
-            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido
+            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido, osea uno de esos 3
 
             // Verifica el estado del juego
             const game = playingArray.find(obj => obj.id === data.id);
@@ -159,4 +160,57 @@ Then('el resultado debería ser empate', async function () {
         });
         resolve();
     });
+});
+
+
+// Paso para verificar la validez del movimiento
+When('{string} intenta seleccionar {string} en la posición {int}', function (jugador, marca, posicion) {
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta
+            socket.emit('playing', { idGame: response.obj.idGame, value: marca, move: `pos${posicion}` });
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
+        });
+        resolve();  // Se debe resolver la promesa para que cierre correctamente el proceso y pueda continuar
+    });
+});
+
+// Paso para recibir el mensaje de alerta
+Then('debería recibir un mensaje de error {string}', async function (mensaje) {
+    return new Promise((resolve) => {
+        // Emite mensaje de alerta "Movimiento inválido"
+        socket.on('invalidMove', (response) => {
+            expect(response.message).to.equal(mensaje);
+            resolve();
+        });
+        // Emite mensaje de alerta "No es tu turno"
+        socket.on('turnError', (response) => {
+            expect(response.message).to.equal(mensaje);
+            resolve();
+        });
+        resolve();  // Hay que resolver la promesa para que cierre correctamente el proceso y pueda continuar
+    });
+});
+
+// Paso para validar que un dato incorrecto no sea validado como correcto
+Then('{string} no debería ser el ganador', async function (nombreGanador) {
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta para luego ser usada
+            const objToChange = data.objToChange;
+            const isPlayer1Turn = objToChange.sum % 2 === 1;
+            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
+
+            expect(expectedPlayer).to.not.equal(nombreGanador);
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
+        });
+        resolve();
+    });
+})
+
+// Hook para cerrar el servidor al finalizar las pruebas, no olvidar importar After del modulo de cucumber
+After(async () => {
+    if (socket) {
+      socket.disconnect(); // Cerrar la conexión del socket
+    }
 });

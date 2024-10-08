@@ -180,6 +180,24 @@ io.on("connection",(socket)=>{
         //Busca al juego por su id y luego verifica si el emisor del evento es player2
         let objToChange=playingArray.find(obj=>obj.id==e.idGame)
         
+        // Verifica si el movimiento está dentro del rango y si la posición está vacía
+        let index = parseInt(e.move.charAt(e.move.length - 1)) - 1; // Convertir a índice de 0 a 8 (rango del tablero)
+        
+        // Verificar si el movimiento está dentro del rango y si la posición está vacía
+        if (index < 0 || index >= objToChange.board.length || objToChange.board[index] !== ' ') {
+            socket.emit("invalidMove", { message: "Movimiento inválido, posición ocupada o fuera de rango" });
+            return;  // Termina la función para no hacer el movimiento
+        }
+
+        // Verifica el turno correcto
+        // Si es el turno de 'X' y el jugador es 'O', o si es el turno de 'O' y el jugador es 'X'
+        // en esos casos emitirá un mensaje de alerta
+        if ((e.value === "X" && objToChange.sum % 2 !== 1) || (e.value === "O" && objToChange.sum % 2 !== 0)) {
+            // Emite el mensaje "No es tu turno" si no es el turno del jugador
+            socket.emit("turnError", { message: "No es tu turno" });
+            return;  // Termina la función aquí para no seguir con el movimiento
+        }
+
         //Toca jugar al X
         if(e.value=="X"){          
             //añade el movimiento a player1 y suma 1 movimiento a la partida
