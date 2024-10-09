@@ -354,3 +354,52 @@ Then('{string} no debería ser el ganador', async function (nombreGanador) {
 94 steps (94 passed)
 0m00.260s (executing steps: 0m00.067s)
 ```
+
+---
+## Integrar las pruebas en el pipeline de CI/CD.
+
+Para integrar las pruebas automatizadas con Cucumber en el pipeline debemos de agregara los comandos para instalar las dependencias necesarias y ejecutar los comandos, que a continuación proporcionaré:
+
+```yml
+- name: Test Cucumber
+      run: npm run cucumber 
+      working-directory: tic-tac-toe
+```
+
+### Generar reporte al ejecutar las pruebas 
+
+Para ello debemos de agregar los comandos necesarios para que nos genere un reporte en formato JSON:
+
+```yml
+- name: Test Cucumber and generate JSON report
+    run: npm run cucumber -- --format json:./reports/cucumber-report.json
+    working-directory: tic-tac-toe
+
+- name: Run unit tests
+    run: npm test
+    working-directory: tic-tac-toe
+
+- name: Upload Cucumber report
+    uses: actions/upload-artifact@v3
+    with:
+    name: cucumber-report
+    path: tic-tac-toe/reports/cucumber-report.json
+
+```
+
+
+#### Una vez que se ejecute correctamente el pipeline, nos debemos de dirigir a Actions:   
+![alt text](/assets/img1.png)
+
+#### Luego nos dirigimos hacia el flujo de trabajo donde se ejecuto las pruebas y hacemos clic en él:
+![alt text](/assets/img3.png)
+
+
+#### Una vez dentro nos dirigimos hacia la parte inferior y obserbamos que en la sección de **Artifacts** aparece nuestro reporte listo para descargarse.
+
+![alt text](/assets/img2.png)
+
+#### Lo descargamos y observamos nuestro reporte de pruebas
+
+
+![alt text](/assets/img4.png)

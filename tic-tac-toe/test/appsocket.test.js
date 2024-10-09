@@ -4,12 +4,6 @@ const io = require('socket.io-client');
 let socket1;
 let socket2;
 
-function waitPlaying(socket, event) {
-  return new Promise((resolve) => {
-    socket.once(event, resolve);
-  });
-}
-
 describe("Servidor Socket", () => {
 
     beforeEach((done) => {
