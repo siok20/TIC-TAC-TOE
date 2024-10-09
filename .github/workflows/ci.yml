@@ -25,14 +25,15 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: tic-tac-toe
-
+      
+    - name: Test Cucumber
+      run: npm run cucumber
+      working-directory: tic-tac-toe
+      
     - name: Run test
       run: npm test
       working-directory: tic-tac-toe
 
-    - name: Test Cucumber
-      run: npm run cucumber
-      working-directory: tic-tac-toe
 
     - name: Check Docker and Docker Compose versions
       run: |
