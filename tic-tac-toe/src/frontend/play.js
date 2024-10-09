@@ -33,8 +33,8 @@ socket.on("find", (e) => {
     con logica JS, el nombre del jugador y del oponente
     e internanemente cambia el currentId al de la partida
     */
-    let allPlayersArray = e.allPlayers
-    console.log("html", allPlayersArray)
+
+    console.log(socket)
 
     currentId = e.id;
 
@@ -46,9 +46,10 @@ socket.on("find", (e) => {
     let oppName
     let value
 
-    const foundObject = allPlayersArray.find(obj => obj.p1.name == `${name}` || obj.p2.name == `${name}`);
-    foundObject.p1.name == `${name}` ? oppName = foundObject.p2.name : oppName = foundObject.p1.name
-    foundObject.p1.name == `${name}` ? value = foundObject.p1.value : value = foundObject.p2.value
+    const object = e.obj
+    console.log(object)
+    object.p1.name == `${name}` ? oppName = object.p2.name : oppName = object.p1.name
+    object.p1.name == `${name}` ? value = object.p1.value : value = object.p2.value
 
     document.getElementById("oppName").innerText = oppName
     document.getElementById("value").innerText = value
@@ -66,14 +67,14 @@ document.querySelectorAll(".btn").forEach(e => {
         e.innerText = value
         //En caso sea un turno valido emitimos el evento playing a app.js
         //Envia el valor de juego actual, el id del boton seleccionado, el nombre del jugador y el id de la partida
-        socket.emit("playing", { value: value, id: e.id, name: name, idGame: currentId })
+        socket.emit("playing", { value: value, move: e.id, name: name, idGame: currentId })
     })
 })
 
 //Recibe el evento playing de app.js
 socket.on("playing", (e) => {
     //Encuentra del objeto de la partida por su id
-    const foundObject = (e.allPlayers).find(obj => currentId == obj.id && (obj.p1.name == `${name}` || obj.p2.name == `${name}`));
+    const foundObject = e.objToChange
 
     //Toma los movimientos de ambos jugadores
     p1id = foundObject.p1.move
@@ -101,11 +102,41 @@ socket.on("playing", (e) => {
     }
 
     //Checekamos el estado de la partida
-    check(name, foundObject.sum, foundObject)
+    socket.emit("check", {id: foundObject.id})
+    //check(name, foundObject)
+})
+
+socket.on("gameOver", (e)=>{
+    currentPlayer = "X"
+
+    if(e.winner == " - "){
+
+        
+        socket.emit("gameOver", { name: name, winner: " - ", id:currentId })
+
+        //Emitimos una alerta y recargamos la pagina
+        setTimeout(() => {
+            alert("Empate!!")
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        }, 100)
+    }else{
+        let obj = e.winner
+
+        socket.emit("gameOver", { name: name, winner: obj.name, id:currentId })
+        
+        setTimeout(() => {
+            alert(`Victoria de ${obj.name}`)
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        }, 100)
+    }
 })
 
 //Checkea el estado de la partida
-function check(name, sum, foundObject) {
+function check(name, foundObject) {
     //Asiganmos las variables bi, que representan a cada boton
     //Si un boton no ha sido clickeado le toca una letra
     document.getElementById("btn1").innerText == '' ? b1 = "a" : b1 = document.getElementById("btn1").innerText
@@ -118,15 +149,16 @@ function check(name, sum, foundObject) {
     document.getElementById("btn8").innerText == '' ? b8 = "h" : b8 = document.getElementById("btn8").innerText
     document.getElementById("btn9").innerText == '' ? b9 = "i" : b9 = document.getElementById("btn9").innerText
 
-    let winner= " - "
+    let sum = foundObject.sum
+    let winner
 
     //Con 10 clicks ya la partida queda en empate
-    if (foundObject.sum == 10) {
-        //En caso haya victoria, retornamos el current player a X
+    if (sum == 10) {
+        //En caso haya empate, retornamos el current player a X
         currentPlayer = "X"
         //Emitimos el evento juego terminado a app.js
         //Enviamos el jugador presente, el ganador y el id de la partida
-        socket.emit("gameOver", { name: name, winner: winner, id:foundObject.id })
+        socket.emit("gameOver", { name: name, winner: " - ", id:foundObject.id })
         //Emitimos una alerta y recargamos la pagina
         setTimeout(() => {
             alert("Empate!!")

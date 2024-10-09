@@ -134,19 +134,23 @@ io.on("connection",(socket)=>{
                 let p1obj={
                     name:arr[0],
                     value:"X",
-                    move:""
+                    move:"",
+                    countClick: 0
                 }
                 let p2obj={
                     name:arr[1],
                     value:"O",
-                    move:""
+                    move:"",
+                    countClick: 0
                 }
                 
                 //Se añade un id a cada juego, los dos players, el campo de ganador y la suma de movimientos realizados
+                //board es el estado del tablero de la partida
                 let obj={
                     id:gameId,
                     p1:p1obj,
                     p2:p2obj,
+                    board: "         ",
                     winner:"-",
                     sum:1
                 }
@@ -160,7 +164,9 @@ io.on("connection",(socket)=>{
                 arr.splice(0,2)
                 
                 //Retornamos el evento find solo a los jugadores dentro del room
-                io.to(gameId).emit("find", { allPlayers: [obj], id: gameId })
+                io.to(gameId).emit("find", { obj, id: gameId })
+
+                console.log("Emitiendo evento find con:", { obj, id: gameId });
 
                 //Cambiamos el id para los siguientes juegos
                 gameId++
@@ -172,61 +178,116 @@ io.on("connection",(socket)=>{
     
     //Evento de juego
     socket.on("playing",(e)=>{
+
+        //Busca al juego por su id y luego verifica si el emisor del evento es player2
+        let objToChange=playingArray.find(obj=>obj.id==e.idGame)
+        
+        // Verifica si el movimiento está dentro del rango y si la posición está vacía
+        let index = parseInt(e.move.charAt(e.move.length - 1)) - 1; // Convertir a índice de 0 a 8 (rango del tablero)
+        
+        // Verificar si el movimiento está dentro del rango y si la posición está vacía
+        if (index < 0 || index >= objToChange.board.length || objToChange.board[index] !== ' ') {
+            socket.emit("invalidMove", { message: "Movimiento inválido, posición ocupada o fuera de rango" });
+        }
+
+        // Verifica el turno correcto
+        // Si es el turno de 'X' y el jugador es 'O', o si es el turno de 'O' y el jugador es 'X'
+        // en esos casos emitirá un mensaje de alerta
+        if ((e.value === "X" && objToChange.sum % 2 !== 1) || (e.value === "O" && objToChange.sum % 2 !== 0)) {
+            // Emite el mensaje "No es tu turno" si no es el turno del jugador
+            socket.emit("turnError", { message: "No es tu turno" });
+        }
+
         //Toca jugar al X
-        if(e.value=="X"){
-            //Busca al juego por su id y luego verifica si el emisor del evento es player1
-            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p1.name===e.name)
-            
+        if(e.value=="X"){          
             //añade el movimiento a player1 y suma 1 movimiento a la partida
-            objToChange.p1.move=e.id
+            objToChange.p1.move=e.move
             objToChange.sum++
+            objToChange.p1.countClick++
 
         }
         //Toca jugar al O
-        else if(e.value=="O"){
-            //Busca al juego por su id y luego verifica si el emisor del evento es player2
-            let objToChange=playingArray.find(obj=>obj.id==e.idGame && obj.p2.name===e.name)
-            
+        else if(e.value=="O"){            
             //añade el movimiento a player2 y suma 1 movimiento a la partida
-            objToChange.p2.move=e.id  
+            objToChange.p2.move=e.move
             objToChange.sum++
+            objToChange.p2.countClick++
         }
 
+        //Segun el boton presionado reemplazamos en su ubicacion
+        //correspondiente en el board segun el valor que toque
+        let indice = e.move.charAt(e.move.length - 1)
+
+        objToChange.board = objToChange.board.substring(0,indice-1) + e.value + objToChange.board.substring(indice,objToChange.board.length) 
+
         //Emite el evento playing con el objeto necesario
-        console.log(playingArray)
-        io.emit("playing",{allPlayers:playingArray})
+        console.log(objToChange)
+        io.to(objToChange.id).emit("playing",{objToChange})
         
+    })
+
+    socket.on("check", (e)=>{
+        let foundObject = playingArray.find(obj => obj.id === e.id)
+
+        let board = foundObject.board.split("")
+        let sum = foundObject.sum
+
+        console.log(board)
+
+        if(sum == 10){
+            io.to(e.id).emit("gameOver", {winner: " - "})
+            io.socketsLeave(e.id);
+        }
+        else if((board[0] == board[1] && board[1] == board[2] && " " != board[2] ) || 
+                (board[3] == board[4] && board[4] == board[5] && " " != board[3]) || 
+                (board[6] == board[7] && board[7] == board[8] && " " != board[6]) || 
+                (board[0] == board[3] && board[3] == board[6] && " " != board[0]) || 
+                (board[1] == board[4] && board[4] == board[7] && " " != board[1]) || 
+                (board[2] == board[5] && board[5] == board[8] && " " != board[2]) || 
+                (board[0] == board[4] && board[4] == board[8] && " " != board[0]) || 
+                (board[2] == board[4] && board[4] == board[6] && " " != board[2])
+        ){
+            if(sum % 2 == 0){
+                io.to(e.id).emit("gameOver", {winner: foundObject.p1})
+                io.socketsLeave(e.id);
+            }
+            else{
+                io.to(e.id).emit("gameOver", {winner: foundObject.p2})
+                io.socketsLeave(e.id);
+            }
+        }
+
     })
     
     //evento de finalizacion de partida
     socket.on("gameOver",(e)=>{
 
+        //Busca el juego por el id y añade al ganador
+        let game = playingArray.find(obj => obj.id == e.id)
+        game.winner = e.winner
+       
+        console.log(playingArray)
+        
         //busca al jugador que emitió el evento
         let me = players.find(obj => obj.name == e.name)
         partidasActivas.dec(0.5);  //Decrementa cuando una partida termina
         //Si el juego quedó en empate se suma solo un punto
         if(e.winner == " - "){
-            me.points++
+            me.points += 2
             puntuacionJugador.labels(e.name).inc();
+            console.log(`Empate! ${e.name} ahora tiene ${me.points} puntos.`);
         }
         //Si ganas te sumas 2 puntos y una victoria
         else if (e.winner == me.name){
-            me.points++;
-            me.points++;
+            let count = me.name == game.p1.name ? game.p1.countClick : game.p2.countClick
+            me.points += 12 / count
 
             me.wins++;
             puntuacionJugador.labels(e.name).inc(2);
+            console.log(`${e.winner} gana! Ahora tiene ${me.points} puntos y ${me.wins} victorias.`);
         }
 
-        //Busca el juego por el id y añade al ganador
-        playingArray.find(obj => obj.id == e.id).winner = e.winner
-       
-        console.log(playingArray)
         console.log(players)
-
-       
-
-
     })
 
     //Acceder a un juego por su id
@@ -287,8 +348,13 @@ app.get('/metrics', async (req, res) => {
     res.end(await register.metrics());
 });
 
-
 // Iniciar el servidor
-server.listen(4000, () => {
-    console.log('Server running on port 4000');
-});
+if (require.main === module) {
+    const port = process.env.PORT || 4000; 
+    server.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+
+module.exports = { app, server };
+
