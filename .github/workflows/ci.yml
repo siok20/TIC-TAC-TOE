@@ -34,18 +34,11 @@ jobs:
       run: npm test
       working-directory: tic-tac-toe
 
-    - name: Upload Cucumber report
-      uses: actions/upload-artifact@v2
-      with:
-        name: cucumber-report
-        path: tic-tac-toe/cucumber-report.json
-
 
     - name: Check Docker and Docker Compose versions
       run: |
         docker --version
         docker compose version  
-
     - name: Build and run Docker Compose
       run: |
         docker compose up --build -d 
@@ -58,15 +51,12 @@ jobs:
         # Verifica el nombre exacto del directorio descomprimido
         ls -l  # Esto listará los archivos para que se vea el nombre
         mv dependency-check-* dependency-check  # Se debe de renombrar el directorio
-
-
     - name: Grant execute permissions for Dependency-Check
       run: chmod +x dependency-check/bin/dependency-check.sh
 
     - name: Run OWASP Dependency-Check
       run: |
         ./dependency-check/bin/dependency-check.sh --project "Tic Tac Toe" --scan ./tic-tac-toe/src
-
     - name: Stop and clean Docker Compose
       run: |
         docker compose down  
