@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --detectOpenHandles",
-    "cucumber": "cucumber-js"
+    "cucumber": "cucumber-js",
+    "test": "jest --detectOpenHandles --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,8 @@
   "devDependencies": {
     "@cucumber/cucumber": "^11.0.1",
     "chai": "^4.5.0",
-    "cucumber-pretty": "^6.0.1"
+    "cucumber-pretty": "^6.0.1",
+    "supertest": "^6.1.6",
+    "socket.io-client": "^4.0.0"
   }
 }
