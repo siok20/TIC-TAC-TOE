@@ -26,8 +26,11 @@ jobs:
       run: npm install
       working-directory: tic-tac-toe
       
+    - name: Create reports directory
+      run: mkdir -p tic-tac-toe/reports
+    
     - name: Test Cucumber and generate JSON report
-      run: npm run cucumber -- --format json:./cucumber-report.json
+      run: npm run cucumber -- --format json:./reports/cucumber-report.json
       working-directory: tic-tac-toe
 
     - name: Run unit tests
