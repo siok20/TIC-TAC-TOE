@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - test/preparation
   pull_request:
     branches:
       - main
+      - test/preparation
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +24,14 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: tic-tac-toe
+
+    - name: Run test
+      run: npm test
+      working-directory: tic-tac-toe
+
+    - name: Test Cucumber
+      run: npm run cucumber
       working-directory: tic-tac-toe
 
     - name: Check Docker and Docker Compose versions
@@ -54,3 +64,4 @@ jobs:
       run: |
         docker compose down  
       working-directory: tic-tac-toe
+
