@@ -10,8 +10,8 @@ Característica: Manejo de Errores
         Dado un jugador llamado "<jugador1>" y un jugador llamado "<jugador2>"
         Cuando "<jugador1>" selecciona "X" en la posición <posicion1>
         Y "<jugador2>" selecciona "O" en la posición <posicion2>
-        Cuando "<jugador2>" intenta seleccionar "X" en la posición <posicion3>
-        Entonces debería recibir un mensaje de error "No es tu turno"
+        Entonces "<jugador2>" intenta seleccionar "X" en la posición <posicion3>
+        Y debería recibir un mensaje de error "No es tu turno"
 
         Ejemplos:
         | jugador1 | jugador2 | posicion1 | posicion2 | posicion3 |

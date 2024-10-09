@@ -4,7 +4,6 @@ const io = require('socket.io-client');
 
 let socket;
 let response;
-let currentId;
 
 BeforeAll(() => {
     if (!socket) {
@@ -28,7 +27,7 @@ Given('otro jugador con el nombre {string}', function (nombreJugador) {
 When('ambos jugadores se unan al juego', function () {
     socket.on('find', (data) => {
         response = data; // Asignar la respuesta
-        resolve();
+        //resolve();
     });
 });
 
@@ -40,7 +39,7 @@ Then('debería crearse una nueva partida con el tablero vacío', function () {
     expect(response).to.exist;
     expect(response.obj.board).to.equal('         '); // Nos debe devolver un tablero vacío
     expect(response.id).to.exist; // Verifica que se creo un id
-    resolve();
+    //resolve();
     });
 });  
 
@@ -108,7 +107,7 @@ Given('un jugador llamado {string} y un jugador llamado {string}', async functio
     socket.on('find', (data) => {
       response = data; // Guardar la respuesta para usarlo luego
       currentId = data.id;
-      resolve();
+      //resolve();
    });
 })
 
