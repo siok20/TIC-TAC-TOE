@@ -199,7 +199,7 @@ io.on("connection",(socket)=>{
         objToChange.board = objToChange.board.substring(0,indice-1) + e.value + objToChange.board.substring(indice,objToChange.board.length) 
 
         //Emite el evento playing con el objeto necesario
-        console.log(playingArray)
+        console.log(objToChange)
         io.to(objToChange.id).emit("playing",{objToChange})
         
     })
@@ -213,7 +213,8 @@ io.on("connection",(socket)=>{
         console.log(board)
 
         if(sum == 10){
-            socket.emit("gameOver", {winner: " - "})
+            io.to(e.id).emit("gameOver", {winner: " - "})
+            io.socketsLeave(e.id);
         }
         else if((board[0] == board[1] && board[1] == board[2] && " " != board[2] ) || 
                 (board[3] == board[4] && board[4] == board[5] && " " != board[3]) || 
