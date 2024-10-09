@@ -26,14 +26,19 @@ jobs:
       run: npm install
       working-directory: tic-tac-toe
       
-    - name: Test Cucumber
-      run: npm run cucumber
+    - name: Test Cucumber and generate JSON report
+      run: npm run cucumber -- --format json:./cucumber-report.json
       working-directory: tic-tac-toe
 
-    - name: Run test
+    - name: Run unit tests
       run: npm test
       working-directory: tic-tac-toe
 
+    - name: Upload Cucumber report
+      uses: actions/upload-artifact@v2
+      with:
+        name: cucumber-report
+        path: tic-tac-toe/cucumber-report.json
 
     - name: Check Docker and Docker Compose versions
       run: |
