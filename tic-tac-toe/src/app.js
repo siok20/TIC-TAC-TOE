@@ -149,6 +149,7 @@ io.on("connection",(socket)=>{
                     p1:p1obj,
                     p2:p2obj,
                     board: "         ",
+                    buttons: [],
                     winner:"-",
                     sum:1
                 }
@@ -197,13 +198,44 @@ io.on("connection",(socket)=>{
         let indice = e.move.charAt(e.move.length - 1)
 
         objToChange.board = objToChange.board.substring(0,indice-1) + e.value + objToChange.board.substring(indice,objToChange.board.length) 
-
+        // Añade el último boton jugado al array buttons
+        objToChange.buttons.unshift(e.move);
         //Emite el evento playing con el objeto necesario
         console.log(playingArray)
         io.to(objToChange.id).emit("playing",{objToChange})
-        
+
+        //Atendiendo al modo de juego por muert-subita
+       /* if ((objToChange.sum)>4){
+            io.to(objToChange.id).emit("sudden-death",{objToChange})
+        }  */
     })
 
+    socket.on("process",(e)=>{
+        let game = playingArray.find(obj => obj.id == e.idGame)
+        let btn = game.buttons.pop()
+
+        let indice = btn.charAt(btn.length - 1)
+
+        game.board = game.board.substring(0,indice-1) + e.value + game.board.substring(indice,game.board.length) 
+
+    })
+    socket.on("deleteMove", (e)=>{
+        let game = playingArray.find(obj => obj.id == e.game_id)
+        //mandamos solo al game especifico el evento de deleteMove
+        io.to(game.id).emit("deleteMove", {game, buttons: game.buttons})
+        //Atenderá cuando el movimiento en la parte del cliente haya sido borrado
+        socket.on("moveDeleted", (e) => {
+            let game = playingArray.find(obj => obj.id == e.game_id);
+            
+            if (game) {
+                console.log("-------------------");
+                console.log(`game.id: ${game.id}`);
+                game.buttons.splice(1, 1);  // Elimina la posición 1 del array de botones
+                //game.sum--;  // Disminuye el número de movimientos
+            }
+        });
+    })  
+    
     socket.on("check", (e)=>{
         let foundObject = playingArray.find(obj => obj.id === e.id)
 
@@ -316,6 +348,11 @@ app.get('/games', (req, res)=> {
     res.sendFile(path.resolve(__dirname, 'frontend', 'games.html'))
 })
 
+
+app.get('/muerte-subita', (req, res)=> {
+    
+    res.sendFile(path.resolve(__dirname, 'frontend', 'subita.html'))
+})
 
 // Ruta para métricas
 app.get('/metrics', async (req, res) => {
