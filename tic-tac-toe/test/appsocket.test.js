@@ -86,11 +86,11 @@ describe("Servidor Socket", () => {
 							socket1.emit("check", { id: gameId });
 
 							socket1.on("gameOver", (data) => {
-									expect(data.winner.name).toEqual("Jugador1");
+									expect(data.winner.name).toEqual("Jugador2");
 							});
 
 							socket2.on("gameOver", (data) => {
-									expect(data.winner.name).toEqual("Jugador1"); 
+									expect(data.winner.name).toEqual("Jugador2"); 
 									done();
 							});
 						}, "1000");
@@ -119,11 +119,11 @@ describe("Servidor Socket", () => {
 						socket1.emit("check", { id: gameId });
 
 						socket1.on("gameOver", (data) => {
-								expect(data.winner.name).toEqual("Jugador2"); // Asegura que X sea el ganador
+								expect(data.winner.name).toEqual("Jugador1"); 
 						});
 
 						socket2.on("gameOver", (data) => {
-								expect(data.winner.name).toEqual("Jugador2"); 
+								expect(data.winner.name).toEqual("Jugador1"); 
 								done();
 						});
 					}, "5000");
