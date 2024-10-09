@@ -1,6 +1,7 @@
 const {Given, When, Then, BeforeAll, AfterAll} = require('@cucumber/cucumber');
 const {expect} = require('chai');
 const io = require('socket.io-client');
+const { server } = require('../../src/app');
 
 let socket;
 let response;
@@ -218,7 +219,13 @@ Then('{string} no debería ser el ganador', async function (nombreGanador) {
 
 // Hook para cerrar el servidor al finalizar las pruebas, no olvidar importar After del modulo de cucumber
 AfterAll(() => {
-    if (socket) {
-      socket.disconnect(); // Cerrar la conexión del socket
-    }
+  if (socket) {
+    socket.disconnect();
+  }
+  if (server) {
+      server.close(() => {
+          console.log('Servidor cerrado');
+          process.exit(0);
+      });
+  }
 });

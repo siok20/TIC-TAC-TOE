@@ -188,7 +188,6 @@ io.on("connection",(socket)=>{
         // Verificar si el movimiento está dentro del rango y si la posición está vacía
         if (index < 0 || index >= objToChange.board.length || objToChange.board[index] !== ' ') {
             socket.emit("invalidMove", { message: "Movimiento inválido, posición ocupada o fuera de rango" });
-            return;  // Termina la función para no hacer el movimiento
         }
 
         // Verifica el turno correcto
@@ -197,7 +196,6 @@ io.on("connection",(socket)=>{
         if ((e.value === "X" && objToChange.sum % 2 !== 1) || (e.value === "O" && objToChange.sum % 2 !== 0)) {
             // Emite el mensaje "No es tu turno" si no es el turno del jugador
             socket.emit("turnError", { message: "No es tu turno" });
-            return;  // Termina la función aquí para no seguir con el movimiento
         }
 
         //Toca jugar al X

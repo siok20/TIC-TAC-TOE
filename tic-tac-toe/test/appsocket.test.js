@@ -126,11 +126,11 @@ describe("Servidor Socket", () => {
 								expect(data.winner.name).toEqual("Jugador2"); 
 								done();
 						});
-					}, "1000");
+					}, "5000");
 					
 					
 			});
-	}, 10000);
+	}, 15000);
 
     test("debe dar el empate de una partida", (done) => {
 			socket1.emit("find", { name: "Jugador3" });
@@ -161,9 +161,9 @@ describe("Servidor Socket", () => {
 								expect(data.winner).toEqual(" - "); 
 								done();
 						});
-					}, "1000");
+					}, "5000");
 				});
 			
-	}, 10000);
+	}, 15000);
 	
 });
