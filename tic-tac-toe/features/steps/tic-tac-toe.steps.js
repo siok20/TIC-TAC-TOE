@@ -24,7 +24,6 @@ Given('otro jugador con el nombre {string}', function (nombreJugador) {
 });
 
 // Paso para cuando ambos jugadores se unen al juego
-
 When('ambos jugadores se unan al juego', function () {
     socket.on('find', (data) => {
         response = data; // Asignar la respuesta
@@ -33,7 +32,6 @@ When('ambos jugadores se unan al juego', function () {
 });
 
 // Paso para verificar que se ha creado una nueva partida
-
 Then('debería crearse una nueva partida con el tablero vacío', function () {
     socket.on('find', (data) => {
     response = data; // Asignar la respuesta
@@ -57,7 +55,6 @@ Given('un jugador llamado {string} comienza a jugar con {string}', function (jug
 });
 
 // Paso para realizar un movimiento
-
 When('{string} selecciona {string} en la posición {int}', function (jugador, marca, posicion) {
     return new Promise((resolve) => {
         socket.on('playing', (data) => {
@@ -68,6 +65,80 @@ When('{string} selecciona {string} en la posición {int}', function (jugador, ma
         resolve();  // Se debe resolver la promesa para que cierre correctamente el proceso y pueda continuar
     });
 });
+
+// Paso para verificar si hay un ganador
+Then('{string} debería ser el ganador', async function (nombreGanador) {
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta para luego ser usada
+            const objToChange = data.objToChange;
+            const isPlayer1Turn = objToChange.sum % 2 === 1;
+            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
+
+            expect(expectedPlayer).to.equal(nombreGanador);
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
+        });
+        resolve();
+    });
+})
+
+// Verificamos que el juego termine
+Then('el juego debería estar terminado', async function () {
+    return new Promise((resolve) => {
+        socket.on('gameOver', (data) => {
+            expect(data).to.be.an('object'); // Verifica que es un objeto
+
+            // Ahora verifica el ganador
+            expect(data.winner).to.exist;
+            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido
+
+            // Verifica el estado del juego
+            const game = playingArray.find(obj => obj.id === data.id);
+            expect(game).to.exist; // Verifica que el juego exista
+            expect(game.winner).to.equal(data.winner); // Verifica que el ganador coincida
+
+            resolve(); // Resuelve la promesa
+        });
+        resolve();
+    });
+});
+
+// Paso que verifica el empate en una partida 
+Then('el resultado debería ser empate', async function () {
+    return new Promise((resolve) => {
+        socket.on('gameOver', (data) => {
+            expect(data).to.be.an('object'); // Verifica que es un objeto
+
+            // Ahora verifica el ganador
+            expect(data.winner).to.exist;
+            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido, osea uno de esos 3
+
+            // Verifica el estado del juego
+            const game = playingArray.find(obj => obj.id === data.id);
+            expect(game).to.exist; // Verifica que el juego exista
+            expect('-').to.equal(data.winner); // Verifica que el ganador coincida
+
+            resolve(); // Resuelve la promesa
+        });
+        resolve();
+    });
+});
+
+// Paso para validar que un dato incorrecto no sea validado como correcto
+Then('{string} no debería ser el ganador', async function (nombreGanador) {
+    return new Promise((resolve) => {
+        socket.on('playing', (data) => {
+            response = data; // Asignar la respuesta para luego ser usada
+            const objToChange = data.objToChange;
+            const isPlayer1Turn = objToChange.sum % 2 === 1;
+            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
+
+            expect(expectedPlayer).to.not.equal(nombreGanador);
+            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
+        });
+        resolve();
+    });
+})
 
 // Paso para verificar que el tablero muestra el movimiento
 Then('el tablero debería mostrar {string} en la posición {int}', function (marca, posicion) {
@@ -112,66 +183,6 @@ Given('un jugador llamado {string} y un jugador llamado {string}', async functio
    });
 })
 
-// Paso para verificar si hay un ganador
-Then('{string} debería ser el ganador', async function (nombreGanador) {
-    return new Promise((resolve) => {
-        socket.on('playing', (data) => {
-            response = data; // Asignar la respuesta para luego ser usada
-            const objToChange = data.objToChange;
-            const isPlayer1Turn = objToChange.sum % 2 === 1;
-            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
-
-            expect(expectedPlayer).to.equal(nombreGanador);
-            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
-        });
-        resolve();
-    });
-})
-
-// Verificamos que el juego termine
-Then('el juego debería estar terminado', async function () {
-    return new Promise((resolve) => {
-        socket.on('gameOver', (data) => {
-            expect(data).to.be.an('object'); // Verifica que es un objeto
-
-            // Ahora verifica el ganador
-            expect(data.winner).to.exist;
-            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido
-
-            // Verifica el estado del juego
-            const game = playingArray.find(obj => obj.id === data.id);
-            expect(game).to.exist; // Verifica que el juego exista
-            expect(game.winner).to.equal(data.winner); // Verifica que el ganador coincida
-
-            resolve(); // Resuelve la promesa
-        });
-        resolve();
-    });
-});
-
-
-// Paso que verifica el empate en una partida 
-Then('el resultado debería ser empate', async function () {
-    return new Promise((resolve) => {
-        socket.on('gameOver', (data) => {
-            expect(data).to.be.an('object'); // Verifica que es un objeto
-
-            // Ahora verifica el ganador
-            expect(data.winner).to.exist;
-            expect(data.winner).to.be.oneOf([' - ', 'Ana', 'Mario']); // Verifica si el ganador es válido, osea uno de esos 3
-
-            // Verifica el estado del juego
-            const game = playingArray.find(obj => obj.id === data.id);
-            expect(game).to.exist; // Verifica que el juego exista
-            expect('-').to.equal(data.winner); // Verifica que el ganador coincida
-
-            resolve(); // Resuelve la promesa
-        });
-        resolve();
-    });
-});
-
-
 // Paso para verificar la validez del movimiento
 When('{string} intenta seleccionar {string} en la posición {int}', function (jugador, marca, posicion) {
     return new Promise((resolve) => {
@@ -200,22 +211,6 @@ Then('debería recibir un mensaje de error {string}', async function (mensaje) {
         resolve();  // Hay que resolver la promesa para que cierre correctamente el proceso y pueda continuar
     });
 });
-
-// Paso para validar que un dato incorrecto no sea validado como correcto
-Then('{string} no debería ser el ganador', async function (nombreGanador) {
-    return new Promise((resolve) => {
-        socket.on('playing', (data) => {
-            response = data; // Asignar la respuesta para luego ser usada
-            const objToChange = data.objToChange;
-            const isPlayer1Turn = objToChange.sum % 2 === 1;
-            const expectedPlayer = isPlayer1Turn ? objToChange.p1.name : objToChange.p2.name;
-
-            expect(expectedPlayer).to.not.equal(nombreGanador);
-            resolve(); // Resuelve la promesa para continuar con la prueba, esto se debe a que socket.on es asíncrono
-        });
-        resolve();
-    });
-})
 
 // Hook para cerrar el servidor al finalizar las pruebas, no olvidar importar After del modulo de cucumber
 AfterAll(() => {

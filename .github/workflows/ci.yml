@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - test/preparation
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,15 +26,20 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: tic-tac-toe
-      
-    - name: Test Cucumber
-      run: npm run cucumber
+
+    - name: Test Cucumber and generate JSON report
+      run: npm run cucumber -- --format json:./cucumber-report.json
       working-directory: tic-tac-toe
 
-    - name: Run test
+    - name: Run unit tests
       run: npm test
       working-directory: tic-tac-toe
 
+    - name: Upload Cucumber report
+      uses: actions/upload-artifact@v2
+      with:
+        name: cucumber-report
+        path: tic-tac-toe/cucumber-report.json
 
     - name: Check Docker and Docker Compose versions
       run: |
@@ -53,7 +59,6 @@ jobs:
         ls -l  # Esto listará los archivos para que se vea el nombre
         mv dependency-check-* dependency-check  # Se debe de renombrar el directorio
 
-
     - name: Grant execute permissions for Dependency-Check
       run: chmod +x dependency-check/bin/dependency-check.sh
 
@@ -65,4 +70,3 @@ jobs:
       run: |
         docker compose down  
       working-directory: tic-tac-toe
-
