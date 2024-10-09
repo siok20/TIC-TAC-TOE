@@ -35,7 +35,7 @@ jobs:
       working-directory: tic-tac-toe
 
     - name: Upload Cucumber report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: cucumber-report
         path: tic-tac-toe/cucumber-report.json
