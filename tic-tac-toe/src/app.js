@@ -134,12 +134,14 @@ io.on("connection",(socket)=>{
                 let p1obj={
                     name:arr[0],
                     value:"X",
-                    move:""
+                    move:"",
+                    countClick: 0
                 }
                 let p2obj={
                     name:arr[1],
                     value:"O",
-                    move:""
+                    move:"",
+                    countClick: 0
                 }
                 
                 //Se añade un id a cada juego, los dos players, el campo de ganador y la suma de movimientos realizados
@@ -183,6 +185,7 @@ io.on("connection",(socket)=>{
             //añade el movimiento a player1 y suma 1 movimiento a la partida
             objToChange.p1.move=e.move
             objToChange.sum++
+            objToChange.p1.countClick++
 
         }
         //Toca jugar al O
@@ -190,6 +193,7 @@ io.on("connection",(socket)=>{
             //añade el movimiento a player2 y suma 1 movimiento a la partida
             objToChange.p2.move=e.move
             objToChange.sum++
+            objToChange.p2.countClick++
         }
 
         //Segun el boton presionado reemplazamos en su ubicacion
@@ -250,6 +254,7 @@ io.on("connection",(socket)=>{
         }
         //Si ganas te sumas 2 puntos y una victoria
         else if (e.winner == me.name){
+            let game = me.game
             me.points++;
             me.points++;
 
