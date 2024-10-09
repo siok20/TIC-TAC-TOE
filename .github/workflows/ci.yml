@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: cucumber-report
-        path: tic-tac-toe/cucumber-report.json
+        path: tic-tac-toe/reports/cucumber-report.json
 
     - name: Check Docker and Docker Compose versions
       run: |
