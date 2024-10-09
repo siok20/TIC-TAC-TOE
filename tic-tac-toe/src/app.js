@@ -244,29 +244,32 @@ io.on("connection",(socket)=>{
     //evento de finalizacion de partida
     socket.on("gameOver",(e)=>{
 
+        //Busca el juego por el id y añade al ganador
+        let game = playingArray.find(obj => obj.id == e.id)
+        game.winner = e.winner
+       
+        console.log(playingArray)
+        
         //busca al jugador que emitió el evento
         let me = players.find(obj => obj.name == e.name)
         partidasActivas.dec(0.5);  //Decrementa cuando una partida termina
         //Si el juego quedó en empate se suma solo un punto
         if(e.winner == " - "){
-            me.points++
+            me.points += 2
             puntuacionJugador.labels(e.name).inc();
         }
         //Si ganas te sumas 2 puntos y una victoria
         else if (e.winner == me.name){
-            let game = me.game
-            me.points++;
-            me.points++;
+            let count = me.name == game.p1.name ? game.p1.countClick : game.p2.countClick
+            me.points += 12 / count
 
             me.wins++;
             puntuacionJugador.labels(e.name).inc(2);
         }
 
-        //Busca el juego por el id y añade al ganador
-        playingArray.find(obj => obj.id == e.id).winner = e.winner
-       
-        console.log(playingArray)
         console.log(players)
+
+        
 
 
     })
