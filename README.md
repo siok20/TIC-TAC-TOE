@@ -1,5 +1,3 @@
-# PC1-Grupo11
-
 # WELCOME TO TIC-TAC-TOE PLAY
 
 ## Instrucciones para ejecutar el juego
